@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Guessing Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    input, button {
+      padding: 8px;
+      margin: 5px;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Number Guessing Game</h1>
+  <p>Guess a number between 1 and 100:</p>
+  <input type="number" id="guessInput">
+  <button onclick="guessNumber()">Submit Guess</button>
+  <button onclick="resetGame()">Reset Game</button>
+  <p id="result"></p>
+
+  <script>
+    let secretNumber;
+    let attempts;
+
+    function startGame() {
+      secretNumber = Math.floor(Math.random() * 100) + 1;
+      attempts = 0;
+      document.getElementById("result").textContent = "";
+      document.getElementById("guessInput").value = "";
+    }
+
+    function guessNumber() {
+      const userGuess = parseInt(document.getElementById("guessInput").value);
+      attempts++;
+
+      if (userGuess === secretNumber) {
+        document.getElementById("result").textContent =
+          `🎉 Correct! You guessed it in ${attempts} tries.`;
+      } else if (userGuess > secretNumber) {
+        document.getElementById("result").textContent = "Too high! Try again.";
+      } else {
+        document.getElementById("result").textContent = "Too low! Try again.";
+      }
+    }
+
+    function resetGame() {
+      startGame();
+    }
+
+    // Start the game when the page loads
+    window.onload = startGame;
+  </script>
+</body>
+</html>
