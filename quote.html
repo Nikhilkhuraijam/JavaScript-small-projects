@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quote Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    #quote { font-size: 1.5em; margin: 20px; }
+    button { padding: 10px 20px; margin: 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Random Quote Generator</h1>
+  <p id="quote">Click the button to see a quote!</p>
+  <button onclick="newQuote()">New Quote</button>
+  <button onclick="copyQuote()">Copy Quote</button>
+
+  <script>
+    const quotes = [
+      "The best way to get started is to quit talking and begin doing.",
+      "Don’t let yesterday take up too much of today.",
+      "It’s not whether you get knocked down, it’s whether you get up.",
+      "If you are working on something exciting, it will keep you motivated."
+    ];
+
+    function newQuote() {
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      document.getElementById("quote").innerText = quotes[randomIndex];
+    }
+
+    function copyQuote() {
+      const quoteText = document.getElementById("quote").innerText;
+      navigator.clipboard.writeText(quoteText);
+      alert("Quote copied to clipboard!");
+    }
+  </script>
+</body>
+</html>
