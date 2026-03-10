@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Study Tracker</title>
+</head>
+<body>
+  <h1>Study Tracker</h1>
+  <input id="topic" placeholder="Topic (e.g., DSA)">
+  <input id="hours" type="number" placeholder="Hours">
+  <button onclick="addSession()">Add Session</button>
+  
+  <ul id="sessionList"></ul>
+  <p>Total Hours: <span id="total">0</span></p>
+
+  <script>
+    let sessions = JSON.parse(localStorage.getItem("sessions")) || [];
+
+    function addSession() {
+      const topic = document.getElementById("topic").value;
+      const hours = parseFloat(document.getElementById("hours").value);
+      sessions.push({topic, hours});
+      localStorage.setItem("sessions", JSON.stringify(sessions));
+      renderSessions();
+    }
+
+    function renderSessions() {
+      const list = document.getElementById("sessionList");
+      list.innerHTML = "";
+      let total = 0;
+      sessions.forEach(s => {
+        const li = document.createElement("li");
+        li.textContent = `${s.topic} - ${s.hours} hrs`;
+        list.appendChild(li);
+        total += s.hours;
+      });
+      document.getElementById("total").textContent = total;
+    }
+
+    renderSessions();
+  </script>
+</body>
+</html>
