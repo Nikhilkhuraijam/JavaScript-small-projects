@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Markdown Blog Editor</title>
+
+<style>
+body{
+font-family: Arial;
+background:#0f172a;
+color:white;
+margin:0;
+display:flex;
+height:100vh;
+}
+
+.editor, .preview{
+width:50%;
+padding:20px;
+box-sizing:border-box;
+overflow:auto;
+}
+
+textarea{
+width:100%;
+height:100%;
+background:#020617;
+color:#22c55e;
+border:none;
+outline:none;
+font-size:16px;
+}
+
+.preview{
+background:#111827;
+}
+
+h1,h2,h3{
+color:#38bdf8;
+}
+
+code{
+background:#020617;
+padding:4px;
+border-radius:4px;
+color:#22c55e;
+}
+</style>
+
+</head>
+<body>
+
+<div class="editor">
+<textarea id="markdown">
+# My Blog
+
+## Hello World
+
+This is **bold text**
+
+This is *italic*
+
+### Code Example
+
+`console.log("Hello")`
+</textarea>
+</div>
+
+<div class="preview" id="preview"></div>
+
+<script>
+
+function parseMarkdown(text){
+
+text=text.replace(/^### (.*$)/gim,'<h3>$1</h3>')
+text=text.replace(/^## (.*$)/gim,'<h2>$1</h2>')
+text=text.replace(/^# (.*$)/gim,'<h1>$1</h1>')
+text=text.replace(/\*\*(.*)\*\*/gim,'<b>$1</b>')
+text=text.replace(/\*(.*)\*/gim,'<i>$1</i>')
+text=text.replace(/`(.*?)`/gim,'<code>$1</code>')
+text=text.replace(/\n$/gim,'<br>')
+
+return text
+}
+
+let textarea=document.getElementById("markdown")
+let preview=document.getElementById("preview")
+
+function update(){
+preview.innerHTML=parseMarkdown(textarea.value)
+}
+
+textarea.addEventListener("input",update)
+
+update()
+
+</script>
+
+</body>
+</html>
