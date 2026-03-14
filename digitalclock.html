@@ -45,15 +45,22 @@
         0 4px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .time-segment span {
-      font-size: 5rem;
-      font-weight: 300;
-      font-family: 'Courier New', monospace;
-      background: linear-gradient(180deg, #00ffcc 0%, #00b894 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 40px rgba(0, 255, 204, 0.3);
-    }
+.time-segment span {
+  font-size: 5rem;
+  font-weight: 300;
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(180deg, #00ffcc 0%, #00b894 100%);
+
+  /* Compatibility across browsers */
+  -webkit-background-clip: text; /* Chrome, Safari */
+  background-clip: text;         /* Standard property */
+
+  -webkit-text-fill-color: transparent; /* Chrome, Safari */
+  color: transparent;                   /* Standard fallback */
+
+  text-shadow: 0 0 40px rgba(0, 255, 204, 0.3);
+}
+
 
     .separator {
       font-size: 4rem;
