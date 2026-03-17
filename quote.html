@@ -4,13 +4,63 @@
   <meta charset="UTF-8">
   <title>Quote Generator</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-    #quote { font-size: 1.5em; margin: 20px; }
-    button { padding: 10px 20px; margin: 10px; cursor: pointer; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    }
+
+    #quote {
+      font-size: 1.5em;
+      margin: 20px;
+      max-width: 600px;
+      padding: 20px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    button {
+      padding: 12px 25px;
+      margin: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(135deg, #ff9966, #ff5e62);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
   </style>
 </head>
 <body>
-  <h1>Random Quote Generator</h1>
+  <h1>✨ Random Quote Generator ✨</h1>
   <p id="quote">Click the button to see a quote!</p>
   <button onclick="newQuote()">New Quote</button>
   <button onclick="copyQuote()">Copy Quote</button>
@@ -25,13 +75,20 @@
 
     function newQuote() {
       const randomIndex = Math.floor(Math.random() * quotes.length);
-      document.getElementById("quote").innerText = quotes[randomIndex];
+      const quoteElement = document.getElementById("quote");
+      quoteElement.style.opacity = 0;
+      setTimeout(() => {
+        quoteElement.innerText = quotes[randomIndex];
+        quoteElement.style.opacity = 1;
+        quoteElement.style.transform = "scale(1.05)";
+        setTimeout(() => quoteElement.style.transform = "scale(1)", 300);
+      }, 300);
     }
 
     function copyQuote() {
       const quoteText = document.getElementById("quote").innerText;
       navigator.clipboard.writeText(quoteText);
-      alert("Quote copied to clipboard!");
+      alert("✅ Quote copied to clipboard!");
     }
   </script>
 </body>
