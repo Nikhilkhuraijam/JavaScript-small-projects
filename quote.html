@@ -1,95 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Quote Generator</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: #fff;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+<meta charset="UTF-8">
+<title>Modern Quote Generator</title>
 
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    #quote {
-      font-size: 1.5em;
-      margin: 20px;
-      max-width: 600px;
-      padding: 20px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease, opacity 0.3s ease;
-    }
+<style>
 
-    button {
-      padding: 12px 25px;
-      margin: 10px;
-      cursor: pointer;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-      font-weight: bold;
-      color: #fff;
-      background: linear-gradient(135deg, #ff9966, #ff5e62);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
 
-    button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
-    }
+body{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+color:white;
+background:linear-gradient(-45deg,#667eea,#764ba2,#6a11cb,#2575fc);
+background-size:400% 400%;
+animation:gradientMove 12s ease infinite;
+}
 
-    button:active {
-      transform: scale(0.95);
-    }
-  </style>
+@keyframes gradientMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+h1{
+font-size:2.8rem;
+margin-bottom:25px;
+letter-spacing:1px;
+text-shadow:0 5px 15px rgba(0,0,0,0.4);
+}
+
+#quote{
+font-size:1.4rem;
+max-width:650px;
+padding:30px;
+margin-bottom:25px;
+border-radius:15px;
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,0.2);
+box-shadow:0 8px 25px rgba(0,0,0,0.3);
+transition:all 0.4s ease;
+line-height:1.6;
+}
+
+button{
+padding:12px 28px;
+margin:10px;
+font-size:1rem;
+font-weight:600;
+border:none;
+border-radius:30px;
+cursor:pointer;
+color:white;
+background:linear-gradient(135deg,#ff7e5f,#feb47b);
+box-shadow:0 6px 18px rgba(0,0,0,0.3);
+transition:all 0.3s ease;
+}
+
+button:hover{
+transform:translateY(-4px) scale(1.05);
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+background:linear-gradient(135deg,#ff512f,#dd2476);
+}
+
+button:active{
+transform:scale(0.95);
+}
+
+@media(max-width:600px){
+
+h1{
+font-size:2rem;
+}
+
+#quote{
+font-size:1.2rem;
+padding:20px;
+}
+
+button{
+padding:10px 20px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
-  <h1>✨ Random Quote Generator ✨</h1>
-  <p id="quote">Click the button to see a quote!</p>
-  <button onclick="newQuote()">New Quote</button>
-  <button onclick="copyQuote()">Copy Quote</button>
 
-  <script>
-    const quotes = [
-      "The best way to get started is to quit talking and begin doing.",
-      "Don’t let yesterday take up too much of today.",
-      "It’s not whether you get knocked down, it’s whether you get up.",
-      "If you are working on something exciting, it will keep you motivated."
-    ];
+<h1>✨ Random Quote Generator ✨</h1>
 
-    function newQuote() {
-      const randomIndex = Math.floor(Math.random() * quotes.length);
-      const quoteElement = document.getElementById("quote");
-      quoteElement.style.opacity = 0;
-      setTimeout(() => {
-        quoteElement.innerText = quotes[randomIndex];
-        quoteElement.style.opacity = 1;
-        quoteElement.style.transform = "scale(1.05)";
-        setTimeout(() => quoteElement.style.transform = "scale(1)", 300);
-      }, 300);
-    }
+<p id="quote">Click the button to see a quote!</p>
 
-    function copyQuote() {
-      const quoteText = document.getElementById("quote").innerText;
-      navigator.clipboard.writeText(quoteText);
-      alert("✅ Quote copied to clipboard!");
-    }
-  </script>
+<button onclick="newQuote()">New Quote</button>
+<button onclick="copyQuote()">Copy Quote</button>
+
+<script>
+
+const quotes = [
+
+"The best way to get started is to quit talking and begin doing.",
+
+"Don’t let yesterday take up too much of today.",
+
+"It’s not whether you get knocked down, it’s whether you get up.",
+
+"If you are working on something exciting, it will keep you motivated.",
+
+"Success is not in what you have, but who you are.",
+
+"Dream big and dare to fail.",
+
+"Discipline is the bridge between goals and accomplishment.",
+
+"Small daily improvements lead to stunning results.",
+
+"Push yourself because no one else will do it for you.",
+
+"Great things never come from comfort zones."
+
+];
+
+function newQuote(){
+
+const randomIndex = Math.floor(Math.random() * quotes.length);
+
+const quoteElement = document.getElementById("quote");
+
+quoteElement.style.opacity = 0;
+
+setTimeout(()=>{
+
+quoteElement.innerText = quotes[randomIndex];
+
+quoteElement.style.opacity = 1;
+
+quoteElement.style.transform = "scale(1.05)";
+
+setTimeout(()=>{
+
+quoteElement.style.transform="scale(1)";
+
+},300);
+
+},300);
+
+}
+
+function copyQuote(){
+
+const quoteText = document.getElementById("quote").innerText;
+
+navigator.clipboard.writeText(quoteText);
+
+alert("✅ Quote copied to clipboard!");
+
+}
+
+</script>
+
 </body>
 </html>
