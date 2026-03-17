@@ -1,176 +1,347 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Modern Quote Generator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quote Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-dim: rgba(201,168,76,0.15);
+      --text: #f0ead8;
+      --text-muted: rgba(240,234,216,0.45);
+      --border: rgba(201,168,76,0.2);
+    }
 
-<style>
+    body {
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Lato', sans-serif;
+      overflow: hidden;
+    }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 50%, rgba(201,168,76,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(100,80,180,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
 
-body{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-color:white;
-background:linear-gradient(-45deg,#667eea,#764ba2,#6a11cb,#2575fc);
-background-size:400% 400%;
-animation:gradientMove 12s ease infinite;
-}
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      pointer-events: none;
+      opacity: 0.4;
+    }
 
-@keyframes gradientMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
+    .container {
+      position: relative;
+      width: min(680px, 92vw);
+      animation: fadeIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
 
-h1{
-font-size:2.8rem;
-margin-bottom:25px;
-letter-spacing:1px;
-text-shadow:0 5px 15px rgba(0,0,0,0.4);
-}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-#quote{
-font-size:1.4rem;
-max-width:650px;
-padding:30px;
-margin-bottom:25px;
-border-radius:15px;
-background:rgba(255,255,255,0.15);
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,0.2);
-box-shadow:0 8px 25px rgba(0,0,0,0.3);
-transition:all 0.4s ease;
-line-height:1.6;
-}
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+      animation: fadeIn 1.2s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
 
-button{
-padding:12px 28px;
-margin:10px;
-font-size:1rem;
-font-weight:600;
-border:none;
-border-radius:30px;
-cursor:pointer;
-color:white;
-background:linear-gradient(135deg,#ff7e5f,#feb47b);
-box-shadow:0 6px 18px rgba(0,0,0,0.3);
-transition:all 0.3s ease;
-}
+    .header-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
 
-button:hover{
-transform:translateY(-4px) scale(1.05);
-box-shadow:0 10px 25px rgba(0,0,0,0.4);
-background:linear-gradient(135deg,#ff512f,#dd2476);
-}
+    .header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--text);
+      letter-spacing: 0.05em;
+    }
 
-button:active{
-transform:scale(0.95);
-}
+    .card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 52px 52px 44px;
+      animation: fadeIn 1.2s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
 
-@media(max-width:600px){
+    .card::before,
+    .card::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-color: var(--gold);
+      border-style: solid;
+    }
+    .card::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .card::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
 
-h1{
-font-size:2rem;
-}
+    .card-inner::before,
+    .card-inner::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-color: var(--gold);
+      border-style: solid;
+    }
+    .card-inner { position: relative; }
+    .card-inner::before { top: -52px; right: -52px; border-width: 2px 2px 0 0; }
+    .card-inner::after  { bottom: -44px; left: -52px; border-width: 0 0 2px 2px; }
 
-#quote{
-font-size:1.2rem;
-padding:20px;
-}
+    .quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 7rem;
+      line-height: 0.6;
+      color: var(--gold);
+      opacity: 0.25;
+      margin-bottom: 12px;
+      display: block;
+      user-select: none;
+    }
 
-button{
-padding:10px 20px;
-}
+    .quote-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--text);
+      min-height: 90px;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
 
-}
+    .quote-text.fade-out {
+      opacity: 0;
+      transform: translateY(8px);
+    }
 
-</style>
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 28px 0 20px;
+    }
+    .divider-line { flex: 1; height: 1px; background: var(--border); }
+    .divider-diamond {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      opacity: 0.5;
+    }
+
+    .quote-author {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      opacity: 0.7;
+      text-transform: uppercase;
+      transition: opacity 0.35s ease;
+      min-height: 1em;
+    }
+    .quote-author.fade-out { opacity: 0; }
+
+    .quote-counter {
+      margin-top: 8px;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      margin-top: 40px;
+      animation: fadeIn 1.2s 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .btn {
+      flex: 1;
+      position: relative;
+      padding: 14px 24px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 1px;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .btn:hover::after { opacity: 1; }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+    }
+    .btn-primary::after { background: var(--gold-light); }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(201,168,76,0.3); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary::after { background: var(--gold-dim); }
+    .btn-secondary:hover { border-color: var(--gold); transform: translateY(-1px); }
+    .btn-secondary:active { transform: translateY(0); }
+
+    .btn span { position: relative; z-index: 1; }
+
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--surface);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      border-radius: 1px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 36px 28px 32px; }
+      .card-inner::before { top: -36px; right: -28px; }
+      .card-inner::after  { bottom: -32px; left: -28px; }
+      .actions { flex-direction: column; }
+    }
+  </style>
 </head>
-
 <body>
 
-<h1>✨ Random Quote Generator ✨</h1>
+  <div class="container">
+    <div class="header">
+      <p class="header-label">Words of wisdom</p>
+      <h1>Quote of the Moment</h1>
+    </div>
 
-<p id="quote">Click the button to see a quote!</p>
+    <div class="card">
+      <div class="card-inner">
+        <span class="quote-mark">&ldquo;</span>
+        <p class="quote-text" id="quote">Click the button to reveal a quote.</p>
+        <div class="divider">
+          <div class="divider-line"></div>
+          <div class="divider-diamond"></div>
+          <div class="divider-line"></div>
+        </div>
+        <p class="quote-author" id="author"></p>
+        <p class="quote-counter" id="counter"></p>
+      </div>
+    </div>
 
-<button onclick="newQuote()">New Quote</button>
-<button onclick="copyQuote()">Copy Quote</button>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="newQuote()"><span>New Quote</span></button>
+      <button class="btn btn-secondary" onclick="copyQuote()"><span>Copy</span></button>
+    </div>
+  </div>
 
-<script>
+  <div class="toast" id="toast">Copied to clipboard</div>
 
-const quotes = [
+  <script>
+    const quotes = [
+      { text: "The best way to get started is to quit talking and begin doing.", author: "Walt Disney" },
+      { text: "Don't let yesterday take up too much of today.", author: "Will Rogers" },
+      { text: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" },
+      { text: "If you are working on something exciting, it will keep you motivated.", author: "Larry Page" },
+      { text: "We generate fears while we sit. We overcome them by action.", author: "Dr. Henry Link" },
+      { text: "Security is mostly a superstition. Life is either a daring adventure or nothing.", author: "Helen Keller" },
+      { text: "The man who has confidence in himself gains the confidence of others.", author: "Hasidic Proverb" },
+      { text: "Opportunities don't happen. You create them.", author: "Chris Grosser" },
+      { text: "In the middle of every difficulty lies opportunity.", author: "Albert Einstein" },
+      { text: "Do what you can, with what you have, where you are.", author: "Theodore Roosevelt" },
+    ];
 
-"The best way to get started is to quit talking and begin doing.",
+    let current = -1;
+    const total = quotes.length;
 
-"Don’t let yesterday take up too much of today.",
+    function newQuote() {
+      const quoteEl   = document.getElementById('quote');
+      const authorEl  = document.getElementById('author');
+      const counterEl = document.getElementById('counter');
 
-"It’s not whether you get knocked down, it’s whether you get up.",
+      quoteEl.classList.add('fade-out');
+      authorEl.classList.add('fade-out');
 
-"If you are working on something exciting, it will keep you motivated.",
+      setTimeout(() => {
+        let next;
+        do { next = Math.floor(Math.random() * total); } while (next === current && total > 1);
+        current = next;
 
-"Success is not in what you have, but who you are.",
+        const q = quotes[current];
+        quoteEl.textContent  = q.text;
+        authorEl.textContent = q.author ? `— ${q.author}` : '';
+        counterEl.textContent = `${current + 1} / ${total}`;
 
-"Dream big and dare to fail.",
+        quoteEl.classList.remove('fade-out');
+        authorEl.classList.remove('fade-out');
+      }, 350);
+    }
 
-"Discipline is the bridge between goals and accomplishment.",
+    function copyQuote() {
+      const q = document.getElementById('quote').textContent;
+      if (q === 'Click the button to reveal a quote.') return;
+      navigator.clipboard.writeText(q).then(showToast);
+    }
 
-"Small daily improvements lead to stunning results.",
+    function showToast() {
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
 
-"Push yourself because no one else will do it for you.",
-
-"Great things never come from comfort zones."
-
-];
-
-function newQuote(){
-
-const randomIndex = Math.floor(Math.random() * quotes.length);
-
-const quoteElement = document.getElementById("quote");
-
-quoteElement.style.opacity = 0;
-
-setTimeout(()=>{
-
-quoteElement.innerText = quotes[randomIndex];
-
-quoteElement.style.opacity = 1;
-
-quoteElement.style.transform = "scale(1.05)";
-
-setTimeout(()=>{
-
-quoteElement.style.transform="scale(1)";
-
-},300);
-
-},300);
-
-}
-
-function copyQuote(){
-
-const quoteText = document.getElementById("quote").innerText;
-
-navigator.clipboard.writeText(quoteText);
-
-alert("✅ Quote copied to clipboard!");
-
-}
-
-</script>
-
+    window.addEventListener('load', () => setTimeout(newQuote, 600));
+  </script>
 </body>
 </html>
