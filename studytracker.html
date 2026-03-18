@@ -1,25 +1,407 @@
-```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Study Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #1a1a24;
+      --border: #2a2a38;
+      --accent: #7c6aff;
+      --accent2: #ff6a8a;
+      --accent3: #6affd4;
+      --text: #eeeef5;
+      --muted: #6b6b85;
+      --glow: rgba(124, 106, 255, 0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 60px 20px;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -30%;
+      left: -10%;
+      width: 60%;
+      height: 60%;
+      background: radial-gradient(ellipse, rgba(124,106,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -20%;
+      right: -10%;
+      width: 50%;
+      height: 50%;
+      background: radial-gradient(ellipse, rgba(255,106,138,0.09) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 560px;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .header { margin-bottom: 40px; }
+    .header-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      background: linear-gradient(120deg, #fff 30%, var(--accent) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header-sub {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .input-group label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    input {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+    input::placeholder { color: var(--muted); }
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--glow);
+    }
+    input[type="number"] { width: 100px; }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+    input[type=number] { -moz-appearance: textfield; }
+
+    button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      padding: 0 24px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      height: 46px;
+      align-self: flex-end;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(124,106,255,0.35);
+    }
+    button:hover {
+      background: #9380ff;
+      box-shadow: 0 4px 28px rgba(124,106,255,0.55);
+    }
+    button:active { transform: scale(0.97); }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 16px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent-line, var(--accent));
+      opacity: 0.7;
+    }
+    .stat-box:nth-child(2) { --accent-line: var(--accent2); }
+    .stat-box:nth-child(3) { --accent-line: var(--accent3); }
+
+    .stat-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .sessions-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 40px rgba(0,0,0,0.3);
+    }
+    .sessions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sessions-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .sessions-count {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--accent);
+      padding: 3px 10px;
+    }
+
+    #sessionList {
+      list-style: none;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    #sessionList::-webkit-scrollbar { width: 4px; }
+    #sessionList::-webkit-scrollbar-track { background: transparent; }
+    #sessionList::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    #sessionList li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      animation: slideIn 0.3s ease both;
+      transition: background 0.15s;
+    }
+    #sessionList li:last-child { border-bottom: none; }
+    #sessionList li:hover { background: var(--surface2); }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .session-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-right: 14px;
+      flex-shrink: 0;
+      box-shadow: 0 0 6px var(--accent);
+    }
+
+    .session-topic {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .session-badge {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--accent3);
+      padding: 4px 10px;
+      font-weight: 500;
+      margin-right: 10px;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0 4px;
+      height: auto;
+      box-shadow: none;
+      transition: color 0.15s;
+      line-height: 1;
+      font-family: inherit;
+      font-weight: 300;
+    }
+    .delete-btn:hover { color: var(--accent2); background: none; box-shadow: none; transform: none; }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+    }
+    .empty-icon { font-size: 2.4rem; margin-bottom: 12px; opacity: 0.4; }
+    .empty-text { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    #sessionList li:nth-child(3n+1) .session-dot { background: var(--accent);  box-shadow: 0 0 6px var(--accent); }
+    #sessionList li:nth-child(3n+2) .session-dot { background: var(--accent2); box-shadow: 0 0 6px var(--accent2); }
+    #sessionList li:nth-child(3n+3) .session-dot { background: var(--accent3); box-shadow: 0 0 6px var(--accent3); }
+  </style>
 </head>
 <body>
-  <h1>Study Tracker</h1>
-  <input id="topic" placeholder="Topic (e.g., DSA)">
-  <input id="hours" type="number" placeholder="Hours">
-  <button onclick="addSession()">Add Session</button>
-  
-  <ul id="sessionList"></ul>
-  <p>Total Hours: <span id="total">0</span></p>
+  <div class="container">
+    <div class="header">
+      <div class="header-label">// dashboard</div>
+      <h1>Study<br>Tracker</h1>
+      <div class="header-sub">log sessions · track progress · stay consistent</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">// new session</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Topic</label>
+          <input id="topic" placeholder="e.g. DSA, React, OS…">
+        </div>
+        <div class="input-group">
+          <label>Hours</label>
+          <input id="hours" type="number" placeholder="2.5" step="0.5" min="0">
+        </div>
+      </div>
+      <button onclick="addSession()">+ Add Session</button>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-value" id="totalHours">0</div>
+        <div class="stat-label">Total Hrs</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="totalSessions">0</div>
+        <div class="stat-label">Sessions</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="avgHours">0</div>
+        <div class="stat-label">Avg / Session</div>
+      </div>
+    </div>
+
+    <div class="sessions-card">
+      <div class="sessions-header">
+        <span class="sessions-title">// log</span>
+        <span class="sessions-count" id="countBadge">0 entries</span>
+      </div>
+      <ul id="sessionList"></ul>
+    </div>
+  </div>
 
   <script>
     let sessions = JSON.parse(localStorage.getItem("sessions")) || [];
 
     function addSession() {
-      const topic = document.getElementById("topic").value;
+      const topic = document.getElementById("topic").value.trim();
       const hours = parseFloat(document.getElementById("hours").value);
-      sessions.push({topic, hours});
+      if (!topic || isNaN(hours) || hours <= 0) return;
+      sessions.push({ topic, hours });
+      localStorage.setItem("sessions", JSON.stringify(sessions));
+      document.getElementById("topic").value = "";
+      document.getElementById("hours").value = "";
+      renderSessions();
+    }
+
+    function deleteSession(index) {
+      sessions.splice(index, 1);
       localStorage.setItem("sessions", JSON.stringify(sessions));
       renderSessions();
     }
@@ -27,19 +409,40 @@
     function renderSessions() {
       const list = document.getElementById("sessionList");
       list.innerHTML = "";
-      let total = 0;
-      sessions.forEach(s => {
-        const li = document.createElement("li");
-        li.textContent = `${s.topic} - ${s.hours} hrs`;
-        list.appendChild(li);
-        total += s.hours;
-      });
-      document.getElementById("total").textContent = total;
+
+      if (sessions.length === 0) {
+        list.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">◎</div>
+            <div class="empty-text">No sessions yet. Add one above.</div>
+          </div>`;
+      } else {
+        sessions.forEach((s, i) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div class="session-dot"></div>
+            <span class="session-topic">${s.topic}</span>
+            <span class="session-badge">${s.hours} hr${s.hours !== 1 ? 's' : ''}</span>
+            <button class="delete-btn" onclick="deleteSession(${i})" title="Remove">✕</button>
+          `;
+          list.appendChild(li);
+        });
+      }
+
+      const total = sessions.reduce((sum, s) => sum + s.hours, 0);
+      const avg = sessions.length ? (total / sessions.length).toFixed(1) : 0;
+
+      document.getElementById("totalHours").textContent = total % 1 === 0 ? total : total.toFixed(1);
+      document.getElementById("totalSessions").textContent = sessions.length;
+      document.getElementById("avgHours").textContent = avg;
+      document.getElementById("countBadge").textContent = `${sessions.length} entr${sessions.length === 1 ? 'y' : 'ies'}`;
     }
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Enter") addSession();
+    });
 
     renderSessions();
   </script>
 </body>
 </html>
- put some good css here and give me the full code
-```
