@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Password Generator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0f0f15;
+      color: #eee;
+      font-family: 'Courier New', monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: #1a1a24;
+      border: 1px solid #2a2a38;
+      border-radius: 16px;
+      padding: 36px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .sub { font-size: 12px; color: #555; margin-bottom: 28px; }
+
+    .output-box {
+      background: #0f0f15;
+      border: 1px solid #2a2a38;
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 18px;
+      letter-spacing: 0.06em;
+      color: #7c6aff;
+      word-break: break-all;
+      min-height: 58px;
+      margin-bottom: 12px;
+    }
+
+    .copy-btn {
+      width: 100%;
+      background: #7c6aff;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      margin-bottom: 24px;
+      transition: background 0.2s;
+    }
+    .copy-btn:hover { background: #9380ff; }
+    .copy-btn.copied { background: #6affd4; color: #000; }
+
+    .options { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    input[type="range"] {
+      accent-color: #7c6aff;
+      width: 160px;
+    }
+
+    input[type="checkbox"] {
+      accent-color: #7c6aff;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .gen-btn {
+      width: 100%;
+      background: transparent;
+      color: #7c6aff;
+      border: 1px solid #7c6aff;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .gen-btn:hover { background: #7c6aff; color: #fff; }
+
+    .strength {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .bar {
+      height: 4px;
+      flex: 1;
+      border-radius: 2px;
+      background: #2a2a38;
+      transition: background 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🔐 Password Generator</h1>
+    <p class="sub">Generate a secure random password</p>
+
+    <div class="output-box" id="output">Click Generate</div>
+
+    <div class="strength">
+      <div class="bar" id="b1"></div>
+      <div class="bar" id="b2"></div>
+      <div class="bar" id="b3"></div>
+      <div class="bar" id="b4"></div>
+    </div>
+
+    <button class="copy-btn" id="copyBtn" onclick="copyPassword()">Copy</button>
+
+    <div class="options">
+      <div class="option-row">
+        <span>Length: <strong id="lenLabel">16</strong></span>
+        <input type="range" id="length" min="6" max="32" value="16" oninput="updateLen()">
+      </div>
+      <div class="option-row">
+        <span>Uppercase (A-Z)</span>
+        <input type="checkbox" id="upper" checked>
+      </div>
+      <div class="option-row">
+        <span>Numbers (0-9)</span>
+        <input type="checkbox" id="numbers" checked>
+      </div>
+      <div class="option-row">
+        <span>Symbols (!@#$)</span>
+        <input type="checkbox" id="symbols" checked>
+      </div>
+    </div>
+
+    <button class="gen-btn" onclick="generate()">Generate Password</button>
+  </div>
+
+  <script>
+    const lower   = 'abcdefghijklmnopqrstuvwxyz';
+    const upper   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numbers = '0123456789';
+    const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+    let password = '';
+
+    function updateLen() {
+      document.getElementById('lenLabel').textContent = document.getElementById('length').value;
+    }
+
+    function generate() {
+      const len     = parseInt(document.getElementById('length').value);
+      const useUpper   = document.getElementById('upper').checked;
+      const useNumbers = document.getElementById('numbers').checked;
+      const useSymbols = document.getElementById('symbols').checked;
+
+      let charset = lower;
+      if (useUpper)   charset += upper;
+      if (useNumbers) charset += numbers;
+      if (useSymbols) charset += symbols;
+
+      password = '';
+      for (let i = 0; i < len; i++) {
+        password += charset[Math.floor(Math.random() * charset.length)];
+      }
+
+      document.getElementById('output').textContent = password;
+      updateStrength(len, useUpper, useNumbers, useSymbols);
+    }
+
+    function updateStrength(len, useUpper, useNumbers, useSymbols) {
+      const score = [len >= 12, useUpper, useNumbers, useSymbols].filter(Boolean).length;
+      const colors = ['#ff4444', '#ff9900', '#ffdd00', '#6affd4'];
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('b' + i).style.background = i <= score ? colors[score - 1] : '#2a2a38';
+      }
+    }
+
+    function copyPassword() {
+      if (!password) return;
+      navigator.clipboard.writeText(password);
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    }
+
+    generate(); // generate one on load
+  </script>
+</body>
+</html>
