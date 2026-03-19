@@ -1,12 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Markdown Blog Editor</title>
-
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
+:root {
+  --bg:        #f0f2f5;
+  --surface:   #ffffff;
+  --surface2:  #f7f8fa;
+  --border:    #dde1e7;
+  --text:      #1a1d23;
+  --muted:     #6b7280;
+  --accent:    #2563eb;
+  --accent-lt: #eff4ff;
+  --green:     #16a34a;
+  --yellow:    #b45309;
+  --pink:      #9333ea;
+  --header-h:  60px;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -14,80 +29,115 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
-  color: #e2e8f0;
-  transition: background 0.3s ease, color 0.3s ease;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
-/* LIGHT MODE */
-body.light {
-  background: linear-gradient(135deg, #f8fafc, #e2e8f0, #f8fafc);
-  color: #1e293b;
+/* ── DARK MODE ── */
+body.dark {
+  --bg:        #111318;
+  --surface:   #1c1e24;
+  --surface2:  #14161b;
+  --border:    #2a2d36;
+  --text:      #e4e6eb;
+  --muted:     #8b949e;
+  --accent:    #3b82f6;
+  --accent-lt: #1e2d4a;
+  --green:     #22c55e;
+  --yellow:    #f59e0b;
+  --pink:      #a855f7;
 }
 
-/* HEADER */
-.header {
-  height: 65px;
+/* ── HEADER ── */
+header {
+  height: var(--header-h);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 30px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-body.light .header {
-  background: rgba(255, 255, 255, 0.7);
-  border-bottom: 1px solid #cbd5e1;
+  padding: 0 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
 .logo {
-  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
   font-weight: 600;
-  color: #38bdf8;
-  letter-spacing: 1px;
+  color: var(--text);
+  letter-spacing: -0.01em;
 }
 
-/* TOOLBAR */
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── TOOLBAR ── */
 .toolbar {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  gap: 6px;
 }
 
 .toolbar button {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid #475569;
-  color: #facc15;
-  padding: 8px 14px;
-  border-radius: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 6px 13px;
+  border-radius: 6px;
   cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .toolbar button:hover {
-  background: #facc15;
-  color: #0f172a;
-  transform: translateY(-2px);
+  background: var(--accent-lt);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-body.light .toolbar button {
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
-  color: #2563eb;
+.toolbar .divider {
+  width: 1px;
+  height: 22px;
+  background: var(--border);
+  margin: 0 4px;
 }
 
-body.light .toolbar button:hover {
-  background: #2563eb;
-  color: white;
+.toolbar .theme-btn {
+  background: var(--surface2);
+  border-color: var(--border);
+  color: var(--muted);
+  font-size: 14px;
+  padding: 6px 10px;
 }
 
-/* MAIN LAYOUT */
+.toolbar .theme-btn:hover {
+  background: var(--accent-lt);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── LAYOUT ── */
 .container {
   display: flex;
   flex: 1;
@@ -98,133 +148,186 @@ body.light .toolbar button:hover {
   width: 50%;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
 }
 
-.panel:last-child {
-  border-right: none;
-}
-
-/* PANEL HEADER */
+/* ── PANEL HEADER ── */
 .panel-header {
-  padding: 12px 18px;
-  background: rgba(255, 255, 255, 0.05);
-  font-size: 15px;
-  font-weight: 500;
-  color: #94a3b8;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 9px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
 }
 
-body.light .panel-header {
-  background: #f1f5f9;
-  color: #475569;
-  border-bottom: 1px solid #cbd5e1;
+.panel-header .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.7;
 }
 
-/* EDITOR */
+.panel:first-child {
+  border-right: 1px solid var(--border);
+}
+
+/* ── EDITOR ── */
 textarea {
   flex: 1;
-  background: #0f172a;
+  background: var(--surface2);
   border: none;
   outline: none;
-  color: #22c55e;
-  padding: 20px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 15px;
+  color: var(--text);
+  padding: 24px 28px;
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+  line-height: 1.75;
   resize: none;
-  line-height: 1.6;
+  caret-color: var(--accent);
 }
 
-body.light textarea {
-  background: #f8fafc;
-  color: #1e293b;
+textarea::selection {
+  background: var(--accent-lt);
+  color: var(--accent);
 }
 
-/* PREVIEW */
+/* ── PREVIEW ── */
 .preview {
   flex: 1;
-  background: #1e293b;
-  padding: 25px;
-  overflow: auto;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--surface);
+  padding: 28px 36px;
+  overflow-y: auto;
+  line-height: 1.75;
 }
 
-body.light .preview {
-  background: #ffffff;
-  border-left: 1px solid #cbd5e1;
-}
-
-/* MARKDOWN STYLE */
 .preview h1 {
-  color: #38bdf8;
-  margin-bottom: 12px;
   font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
 }
 
 .preview h2 {
-  color: #60a5fa;
-  margin-top: 18px;
-  font-size: 22px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-top: 28px;
+  margin-bottom: 8px;
 }
 
 .preview h3 {
-  color: #93c5fd;
-  margin-top: 12px;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 20px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .preview p {
-  margin: 12px 0;
-  line-height: 1.7;
+  font-size: 15px;
+  color: var(--text);
+  margin: 10px 0;
+  line-height: 1.8;
+}
+
+.preview strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.preview em {
+  color: var(--pink);
+  font-style: italic;
 }
 
 .preview code {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 4px 8px;
-  border-radius: 6px;
-  color: #22c55e;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Fira Code', monospace;
+  font-size: 13px;
+  background: var(--accent-lt);
+  color: var(--accent);
+  padding: 2px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
 }
 
-.preview b {
-  color: #facc15;
+/* ── STATUS BAR ── */
+.statusbar {
+  height: 28px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 20px;
+  flex-shrink: 0;
 }
 
-.preview i {
-  color: #f472b6;
+.statusbar span {
+  font-size: 11px;
+  color: rgba(255,255,255,0.85);
+  font-weight: 500;
+  letter-spacing: 0.03em;
 }
 
-/* SCROLLBAR */
-::-webkit-scrollbar {
-  width: 8px;
+.statusbar .status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #86efac;
+  display: inline-block;
+  margin-right: 5px;
 }
 
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: #475569;
+  background: var(--border);
   border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <div class="logo">Markdown Blog Editor</div>
+<header>
+  <div class="logo">
+    <div class="logo-icon">M</div>
+    Markdown Editor
+  </div>
   <div class="toolbar">
     <button onclick="insert('**bold text**')">Bold</button>
     <button onclick="insert('*italic*')">Italic</button>
     <button onclick="insert('# Heading')">H1</button>
     <button onclick="insert('## Heading')">H2</button>
     <button onclick="insert('`code`')">Code</button>
-    <button onclick="toggleTheme()">🌗 Theme</button>
+    <div class="divider"></div>
+    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌗</button>
   </div>
-</div>
+</header>
 
 <div class="container">
   <div class="panel">
-    <div class="panel-header">Editor</div>
-    <textarea id="markdown">
-# My Blog
+    <div class="panel-header">
+      <span class="dot"></span> Editor
+    </div>
+    <textarea id="editor"># My Blog
 
 ## Hello World
 
@@ -232,53 +335,89 @@ This is **bold text**
 
 This is *italic text*
 
-### Code
+### Code Example
 
 `console.log("Hello World")`
-    </textarea>
+</textarea>
   </div>
 
   <div class="panel">
-    <div class="panel-header">Preview</div>
+    <div class="panel-header">
+      <span class="dot"></span> Preview
+    </div>
     <div class="preview" id="preview"></div>
   </div>
 </div>
 
+<div class="statusbar">
+  <span><span class="status-dot"></span>Ready</span>
+  <span id="word-count">0 words</span>
+  <span id="char-count">0 chars</span>
+</div>
+
 <script>
-function parseMarkdown(text) {
-  text = text.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-  text = text.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-  text = text.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-  text = text.replace(/\*\*(.*?)\*\*/gim, '<b>$1</b>');
-  text = text.replace(/\*(.*?)\*/gim, '<i>$1</i>');
-  text = text.replace(/`(.*?)`/gim, '<code>$1</code>');
-  text = text.replace(/\n/g, '<br>');
-  return text;
-}
+  const editor  = document.getElementById('editor');
+  const preview = document.getElementById('preview');
+  const wordCount = document.getElementById('word-count');
+  const charCount = document.getElementById('char-count');
 
-let textarea = document.getElementById("markdown");
-let preview = document.getElementById("preview");
+  function parseMarkdown(text) {
+    text = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
 
-function update() {
-  preview.innerHTML = parseMarkdown(textarea.value);
-}
+    text = text.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+    text = text.replace(/^## (.+)$/gm,  '<h2>$1</h2>');
+    text = text.replace(/^# (.+)$/gm,   '<h1>$1</h1>');
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*(.+?)\*/g,     '<em>$1</em>');
+    text = text.replace(/`(.+?)`/g,       '<code>$1</code>');
 
-textarea.addEventListener("input", update);
+    text = text.split('\n').map(line => {
+      const t = line.trim();
+      if (!t) return '';
+      if (/^<(h[1-3]|ul|ol|li|pre|blockquote)/.test(t)) return t;
+      return `<p>${t}</p>`;
+    }).join('\n');
 
-function insert(text) {
-  let start = textarea.selectionStart;
-  let end = textarea.selectionEnd;
-  let before = textarea.value.substring(0, start);
-  let after = textarea.value.substring(end);
-  textarea.value = before + text + after;
+    return text;
+  }
+
+  function updateStats() {
+    const val = editor.value.trim();
+    const words = val ? val.split(/\s+/).length : 0;
+    const chars = editor.value.length;
+    wordCount.textContent = `${words} word${words !== 1 ? 's' : ''}`;
+    charCount.textContent = `${chars} char${chars !== 1 ? 's' : ''}`;
+  }
+
+  function update() {
+    preview.innerHTML = parseMarkdown(editor.value);
+    updateStats();
+  }
+
+  function insert(syntax) {
+    const start = editor.selectionStart;
+    const end   = editor.selectionEnd;
+    const selected = editor.value.substring(start, end);
+    const before = editor.value.substring(0, start);
+    const after  = editor.value.substring(end);
+    const replacement = selected
+      ? syntax.replace(/bold text|italic|Heading|code/, selected)
+      : syntax;
+    editor.value = before + replacement + after;
+    editor.focus();
+    editor.selectionStart = editor.selectionEnd = start + replacement.length;
+    update();
+  }
+
+  function toggleTheme() {
+    document.body.classList.toggle('dark');
+  }
+
+  editor.addEventListener('input', update);
   update();
-}
-
-function toggleTheme() {
-  document.body.classList.toggle("light");
-}
-
-update();
 </script>
 
 </body>
