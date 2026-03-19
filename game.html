@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameForge — Training Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #0b0c0f;
+      --surface:   #13141a;
+      --surface2:  #1a1b23;
+      --border:    #2a2b36;
+      --text:      #e8e6f0;
+      --muted:     #6b6f80;
+      --accent:    #7c3aed;
+      --accent-lt: #1e1535;
+      --green:     #22c55e;
+      --red:       #ef4444;
+      --yellow:    #f59e0b;
+      --cyan:      #06b6d4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 36px;
+      height: 64px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-logo span {
+      color: var(--text);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+    }
+
+    .nav-links button {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links button:hover,
+    .nav-links button.active {
+      background: var(--accent-lt);
+      color: var(--accent);
+    }
+
+    /* ── PAGES ── */
+    .page { display: none; padding: 40px 36px; max-width: 1100px; margin: 0 auto; }
+    .page.active { display: block; }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 70px 20px 50px;
+    }
+
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(38px, 6vw, 72px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero p {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 36px;
+      line-height: 1.8;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s ease;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.85;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-lt);
+    }
+
+    /* ── GAME CARDS ── */
+    .section-title {
+      font-size: 13px;
+      font-family: 'DM Mono', monospace;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .game-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--card-color, var(--accent)) 0%, transparent 60%);
+      opacity: 0.06;
+      transition: opacity 0.2s;
+    }
+
+    .game-card:hover {
+      border-color: var(--card-color, var(--accent));
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .game-card:hover::before { opacity: 0.12; }
+
+    .game-icon {
+      font-size: 30px;
+      margin-bottom: 14px;
+    }
+
+    .game-name {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .game-genre {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 14px;
+    }
+
+    .game-tag {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: var(--accent-lt);
+      color: var(--accent);
+      border: 1px solid var(--border);
+    }
+
+    /* ── DRILLS SECTION ── */
+    .drills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .drill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      transition: border-color 0.2s;
+    }
+
+    .drill-card:hover { border-color: var(--accent); }
+
+    .drill-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .drill-name {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .drill-diff {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+
+    .diff-easy   { background: #14532d; color: var(--green); }
+    .diff-medium { background: #451a03; color: var(--yellow); }
+    .diff-hard   { background: #450a0a; color: var(--red); }
+
+    .drill-desc {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .drill-meta {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .drill-meta span {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .drill-meta span::before {
+      content: '·';
+      color: var(--accent);
+    }
+
+    .drill-btn {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 100%;
+      background: var(--accent-lt);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 9px;
+      border-radius: 8px;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .drill-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* ── AIM TRAINER ── */
+    #aimPage { padding: 30px 36px; max-width: 1100px; margin: 0 auto; }
+
+    .aim-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .aim-header h2 {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .aim-stats {
+      display: flex;
+      gap: 20px;
+    }
+
+    .aim-stat {
+      text-align: center;
+    }
+
+    .aim-stat-val {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .aim-stat-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .aim-controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .aim-controls select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .aim-controls select:focus { border-color: var(--accent); }
+
+    #aimArena {
+      width: 100%;
+      height: 460px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      cursor: crosshair;
+      user-select: none;
+    }
+
+    #aimArena.inactive {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+    }
+
+    .arena-placeholder {
+      text-align: center;
+    }
+
+    .arena-placeholder p {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .target {
+      position: absolute;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      cursor: crosshair;
+      transition: transform 0.05s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .target::after {
+      content: '';
+      width: 30%;
+      height: 30%;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+    }
+
+    .target:hover { transform: translate(-50%, -50%) scale(1.05); }
+
+    .hit-flash {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: hitAnim 0.35s ease-out forwards;
+    }
+
+    @keyframes hitAnim {
+      from { opacity: 0.9; transform: translate(-50%, -50%) scale(0.5); }
+      to   { opacity: 0;   transform: translate(-50%, -50%) scale(2.5); }
+    }
+
+    /* ── PROGRESS PAGE ── */
+    .progress-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .prog-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .prog-val {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+    }
+
+    .prog-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .history-table {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .history-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .history-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      padding: 12px 20px;
+      text-align: left;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .history-table td {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      padding: 13px 20px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .history-table tr:last-child td { border-bottom: none; }
+    .history-table tr:hover td { background: var(--surface2); }
+
+    .score-badge {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+    }
+
+    .score-a { background: #14532d; color: var(--green); }
+    .score-b { background: #451a03; color: var(--yellow); }
+    .score-c { background: #450a0a; color: var(--red); }
+
+    /* ── TIPS PAGE ── */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .tip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    .tip-game {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .tip-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .tip-body {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .tip-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .tip-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: var(--surface2);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">⬡ Game<span>Forge</span></div>
+  <div class="nav-links">
+    <button class="active" onclick="showPage('home')">Home</button>
+    <button onclick="showPage('aim')">Aim Trainer</button>
+    <button onclick="showPage('drills')">Drills</button>
+    <button onclick="showPage('progress')">Progress</button>
+    <button onclick="showPage('tips')">Tips</button>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div class="page active" id="homePage">
+  <div class="hero">
+    <div class="hero-tag">// train smarter · rank faster</div>
+    <h1>Level Up Your<br><em>Game Skills</em></h1>
+    <p>Professional training drills, aim routines, and strategy guides for FPS and competitive games.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="showPage('aim')">Start Aim Training</button>
+      <button class="btn btn-outline" onclick="showPage('drills')">Browse Drills</button>
+    </div>
+  </div>
+
+  <div class="section-title">// supported games</div>
+  <div class="games-grid">
+    <div class="game-card" style="--card-color:#ef4444" onclick="showPage('drills')">
+      <div class="game-icon">🎯</div>
+      <div class="game-name">Valorant</div>
+      <div class="game-genre">Tactical FPS</div>
+      <span class="game-tag">12 drills</span>
+    </div>
+    <div class="game-card" style="--card-color:#f59e0b" onclick="showPage('drills')">
+      <div class="game-icon">💣</div>
+      <div class="game-name">CS2</div>
+      <div class="game-genre">Tactical FPS</div>
+      <span class="game-tag">10 drills</span>
+    </div>
+    <div class="game-card" style="--card-color:#06b6d4" onclick="showPage('drills')">
+      <div class="game-icon">🚀</div>
+      <div class="game-name">Apex Legends</div>
+      <div class="game-genre">Battle Royale FPS</div>
+      <span class="game-tag">8 drills</span>
+    </div>
+    <div class="game-card" style="--card-color:#22c55e" onclick="showPage('drills')">
+      <div class="game-icon">🏹</div>
+      <div class="game-name">Fortnite</div>
+      <div class="game-genre">Battle Royale</div>
+      <span class="game-tag">9 drills</span>
+    </div>
+    <div class="game-card" style="--card-color:#a855f7" onclick="showPage('drills')">
+      <div class="game-icon">⚔️</div>
+      <div class="game-name">Overwatch 2</div>
+      <div class="game-genre">Hero Shooter</div>
+      <span class="game-tag">7 drills</span>
+    </div>
+    <div class="game-card" style="--card-color:#f97316" onclick="showPage('drills')">
+      <div class="game-icon">🔫</div>
+      <div class="game-name">COD: Warzone</div>
+      <div class="game-genre">Battle Royale FPS</div>
+      <span class="game-tag">6 drills</span>
+    </div>
+  </div>
+</div>
+
+<!-- AIM TRAINER PAGE -->
+<div class="page" id="aimPage">
+  <div class="aim-header">
+    <h2>🎯 Aim Trainer</h2>
+    <div class="aim-stats">
+      <div class="aim-stat">
+        <div class="aim-stat-val" id="scoreVal">0</div>
+        <div class="aim-stat-lbl">Score</div>
+      </div>
+      <div class="aim-stat">
+        <div class="aim-stat-val" id="hitsVal">0</div>
+        <div class="aim-stat-lbl">Hits</div>
+      </div>
+      <div class="aim-stat">
+        <div class="aim-stat-val" id="missVal">0</div>
+        <div class="aim-stat-lbl">Misses</div>
+      </div>
+      <div class="aim-stat">
+        <div class="aim-stat-val" id="accVal">--%</div>
+        <div class="aim-stat-lbl">Accuracy</div>
+      </div>
+      <div class="aim-stat">
+        <div class="aim-stat-val" id="timerVal">30</div>
+        <div class="aim-stat-lbl">Time</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="aim-controls">
+    <select id="modeSelect">
+      <option value="static">Static Targets</option>
+      <option value="moving">Moving Targets</option>
+      <option value="flick">Flick Training</option>
+    </select>
+    <select id="sizeSelect">
+      <option value="large">Large Targets</option>
+      <option value="medium" selected>Medium Targets</option>
+      <option value="small">Small Targets</option>
+    </select>
+    <select id="timeSelect">
+      <option value="30">30 Seconds</option>
+      <option value="60">60 Seconds</option>
+      <option value="90">90 Seconds</option>
+    </select>
+    <button class="btn btn-primary" id="startBtn" onclick="startAim()">▶ Start</button>
+    <button class="btn btn-outline" onclick="resetAim()">↺ Reset</button>
+  </div>
+
+  <div id="aimArena" class="inactive">
+    <div class="arena-placeholder">
+      <div style="font-size:48px">🎯</div>
+      <p>Press Start to begin training</p>
+    </div>
+  </div>
+</div>
+
+<!-- DRILLS PAGE -->
+<div class="page" id="drillsPage">
+  <div class="section-title" style="margin-bottom:24px">// training drills</div>
+  <div class="drills-grid" id="drillsList"></div>
+</div>
+
+<!-- PROGRESS PAGE -->
+<div class="page" id="progressPage">
+  <div class="section-title" style="margin-bottom:24px">// your progress</div>
+  <div class="progress-grid">
+    <div class="prog-card">
+      <div class="prog-val" id="progSessions">0</div>
+      <div class="prog-lbl">Sessions</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-val" id="progBestAcc">--%</div>
+      <div class="prog-lbl">Best Accuracy</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-val" id="progBestScore">0</div>
+      <div class="prog-lbl">Best Score</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-val" id="progAvgAcc">--%</div>
+      <div class="prog-lbl">Avg Accuracy</div>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-bottom:16px">// session history</div>
+  <div class="history-table">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Mode</th>
+          <th>Score</th>
+          <th>Hits</th>
+          <th>Misses</th>
+          <th>Accuracy</th>
+          <th>Grade</th>
+        </tr>
+      </thead>
+      <tbody id="historyBody">
+        <tr><td colspan="7" style="text-align:center;color:var(--muted);font-size:12px;padding:32px">No sessions yet — complete an aim training session first.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TIPS PAGE -->
+<div class="page" id="tipsPage">
+  <div class="section-title" style="margin-bottom:24px">// pro tips & strategies</div>
+  <div class="tips-grid" id="tipsList"></div>
+</div>
+
+<script>
+  /* ── PAGE ROUTER ── */
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id + 'Page').classList.add('active');
+    const btns = document.querySelectorAll('.nav-links button');
+    const pages = ['home','aim','drills','progress','tips'];
+    btns[pages.indexOf(id)].classList.add('active');
+    if (id === 'progress') renderProgress();
+  }
+
+  /* ── AIM TRAINER ── */
+  let score = 0, hits = 0, misses = 0, timeLeft = 30;
+  let aimRunning = false, aimInterval = null, timerInterval = null;
+  let sessions = [];
+
+  const sizes = { large: 60, medium: 38, small: 22 };
+  const colors = ['#7c3aed','#ef4444','#06b6d4','#f59e0b','#22c55e'];
+
+  function startAim() {
+    resetAim();
+    aimRunning = true;
+    timeLeft = parseInt(document.getElementById('timeSelect').value);
+    document.getElementById('timerVal').textContent = timeLeft;
+    document.getElementById('startBtn').disabled = true;
+
+    const arena = document.getElementById('aimArena');
+    arena.classList.remove('inactive');
+    arena.innerHTML = '';
+    arena.onclick = handleMiss;
+
+    spawnTarget();
+
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      document.getElementById('timerVal').textContent = timeLeft;
+      if (timeLeft <= 0) endAim();
+    }, 1000);
+
+    if (document.getElementById('modeSelect').value === 'moving') {
+      aimInterval = setInterval(spawnTarget, 1200);
+    }
+  }
+
+  function spawnTarget() {
+    if (!aimRunning) return;
+    const arena = document.getElementById('aimArena');
+    const mode  = document.getElementById('modeSelect').value;
+    const size  = sizes[document.getElementById('sizeSelect').value];
+
+    // Remove old targets in flick/static mode
+    if (mode !== 'moving') {
+      arena.querySelectorAll('.target').forEach(t => t.remove());
+    }
+
+    const t = document.createElement('div');
+    t.className = 'target';
+    const maxX = arena.clientWidth  - size;
+    const maxY = arena.clientHeight - size;
+    const x = size/2 + Math.random() * maxX;
+    const y = size/2 + Math.random() * maxY;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    t.style.cssText = `
+      left:${x}px; top:${y}px;
+      width:${size}px; height:${size}px;
+      background:${color};
+      box-shadow: 0 0 16px ${color}55;
+    `;
+
+    t.onclick = (e) => {
+      e.stopPropagation();
+      hitTarget(t, x, y, color, size);
+    };
+
+    arena.appendChild(t);
+
+    // Auto-remove after timeout in flick mode
+    if (mode === 'flick') {
+      setTimeout(() => {
+        if (t.parentNode) {
+          t.remove();
+          if (aimRunning) { misses++; updateStats(); spawnTarget(); }
+        }
+      }, 900);
+    }
+  }
+
+  function hitTarget(el, x, y, color, size) {
+    if (!aimRunning) return;
+    score += Math.max(10, Math.round(100 - size));
+    hits++;
+    updateStats();
+
+    // Flash effect
+    const flash = document.createElement('div');
+    flash.className = 'hit-flash';
+    flash.style.cssText = `
+      left:${x}px; top:${y}px;
+      width:${size}px; height:${size}px;
+      background:${color};
+    `;
+    el.parentNode.appendChild(flash);
+    setTimeout(() => flash.remove(), 400);
+
+    el.remove();
+    if (aimRunning) spawnTarget();
+  }
+
+  function handleMiss() {
+    if (!aimRunning) return;
+    misses++;
+    updateStats();
+  }
+
+  function updateStats() {
+    const total = hits + misses;
+    const acc = total ? Math.round((hits / total) * 100) : 0;
+    document.getElementById('scoreVal').textContent = score;
+    document.getElementById('hitsVal').textContent  = hits;
+    document.getElementById('missVal').textContent  = misses;
+    document.getElementById('accVal').textContent   = acc + '%';
+  }
+
+  function endAim() {
+    aimRunning = false;
+    clearInterval(timerInterval);
+    clearInterval(aimInterval);
+
+    const arena = document.getElementById('aimArena');
+    arena.querySelectorAll('.target').forEach(t => t.remove());
+    arena.onclick = null;
+
+    const total = hits + misses;
+    const acc = total ? Math.round((hits / total) * 100) : 0;
+    const mode = document.getElementById('modeSelect').value;
+
+    sessions.push({ mode, score, hits, misses, acc });
+
+    arena.innerHTML = `
+      <div style="text-align:center">
+        <div style="font-size:42px;margin-bottom:12px">🏆</div>
+        <div style="font-size:22px;font-weight:800;margin-bottom:6px">Session Complete!</div>
+        <div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);margin-bottom:20px">
+          Score: ${score} &nbsp;·&nbsp; Accuracy: ${acc}% &nbsp;·&nbsp; Hits: ${hits}
+        </div>
+        <button class="btn btn-primary" onclick="startAim()">▶ Play Again</button>
+      </div>
+    `;
+    arena.classList.add('inactive');
+    document.getElementById('startBtn').disabled = false;
+  }
+
+  function resetAim() {
+    aimRunning = false;
+    clearInterval(timerInterval);
+    clearInterval(aimInterval);
+    score = hits = misses = 0;
+    timeLeft = parseInt(document.getElementById('timeSelect').value);
+    document.getElementById('scoreVal').textContent = 0;
+    document.getElementById('hitsVal').textContent  = 0;
+    document.getElementById('missVal').textContent  = 0;
+    document.getElementById('accVal').textContent   = '--%';
+    document.getElementById('timerVal').textContent = timeLeft;
+    document.getElementById('startBtn').disabled = false;
+
+    const arena = document.getElementById('aimArena');
+    arena.innerHTML = `
+      <div class="arena-placeholder">
+        <div style="font-size:48px">🎯</div>
+        <p>Press Start to begin training</p>
+      </div>
+    `;
+    arena.classList.add('inactive');
+    arena.onclick = null;
+  }
+
+  /* ── PROGRESS ── */
+  function renderProgress() {
+    document.getElementById('progSessions').textContent = sessions.length;
+    if (!sessions.length) return;
+
+    const accs   = sessions.map(s => s.acc);
+    const scores = sessions.map(s => s.score);
+    const best   = Math.max(...accs);
+    const avg    = Math.round(accs.reduce((a,b) => a+b, 0) / accs.length);
+    const bestSc = Math.max(...scores);
+
+    document.getElementById('progBestAcc').textContent  = best + '%';
+    document.getElementById('progAvgAcc').textContent   = avg + '%';
+    document.getElementById('progBestScore').textContent = bestSc;
+
+    const tbody = document.getElementById('historyBody');
+    tbody.innerHTML = sessions.map((s, i) => {
+      const grade = s.acc >= 80 ? 'A' : s.acc >= 55 ? 'B' : 'C';
+      const cls   = s.acc >= 80 ? 'score-a' : s.acc >= 55 ? 'score-b' : 'score-c';
+      return `<tr>
+        <td>${i + 1}</td>
+        <td>${s.mode}</td>
+        <td>${s.score}</td>
+        <td>${s.hits}</td>
+        <td>${s.misses}</td>
+        <td>${s.acc}%</td>
+        <td><span class="score-badge ${cls}">${grade}</span></td>
+      </tr>`;
+    }).reverse().join('');
+  }
+
+  /* ── DRILLS DATA ── */
+  const drills = [
+    { name: 'Crosshair Placement', game: 'Valorant', diff: 'Easy',   time: '10 min', desc: 'Practice keeping your crosshair at head level while navigating common map angles.', tags: ['aim','positioning'] },
+    { name: 'Spray Control',       game: 'CS2',      diff: 'Hard',   time: '20 min', desc: 'Master rifle spray patterns by learning recoil compensation for AK-47 and M4A4.', tags: ['recoil','mechanics'] },
+    { name: 'Flick Shots',         game: 'Apex',     diff: 'Medium', time: '15 min', desc: 'Improve snap aiming by tracking randomly spawned targets at varying distances.', tags: ['flick','tracking'] },
+    { name: 'Building Drills',     game: 'Fortnite', diff: 'Medium', time: '15 min', desc: 'Practice 90s, ramp rushes and box fighting in creative mode for faster builds.', tags: ['building','mechanics'] },
+    { name: 'Grenade Lineups',     game: 'CS2',      diff: 'Hard',   time: '25 min', desc: 'Learn smoke, flash and molotov lineups for Dust2, Mirage and Inferno.', tags: ['utility','strategy'] },
+    { name: 'Agent Abilities',     game: 'Valorant', diff: 'Easy',   time: '10 min', desc: 'Understand cooldowns and combos for your main agent to maximize utility usage.', tags: ['abilities','game sense'] },
+    { name: 'Tracking Movement',   game: 'Apex',     diff: 'Hard',   time: '20 min', desc: 'Practice tracking strafing enemies at mid to long range using Wingman and R301.', tags: ['tracking','aim'] },
+    { name: 'Micro Adjustments',   game: 'OW2',      diff: 'Medium', time: '15 min', desc: 'Hitscan hero drills for McCree and Sojourn focusing on precise flick corrections.', tags: ['precision','aim'] },
+    { name: 'Rotation Timing',     game: 'Warzone',  diff: 'Medium', time: '20 min', desc: 'Learn when to rotate early vs late in the circle to maximize safe positioning.', tags: ['strategy','map awareness'] },
+    { name: 'Peek Mechanics',      game: 'Valorant', diff: 'Easy',   time: '10 min', desc: 'Jiggle peeking and wide swings to win gunfights while minimising your exposure.', tags: ['movement','positioning'] },
+    { name: 'Hip Fire Accuracy',   game: 'Warzone',  diff: 'Easy',   time: '10 min', desc: 'Close-range hip fire drills to win shotgun and SMG fights without ADS delay.', tags: ['aim','close-range'] },
+    { name: 'Ultimate Timing',     game: 'OW2',      diff: 'Hard',   time: '20 min', desc: 'Study when to hold vs use your ultimate by reviewing pro-play VODs and practice.', tags: ['game sense','ults'] },
+  ];
+
+  function renderDrills() {
+    const map = { Easy: 'diff-easy', Medium: 'diff-medium', Hard: 'diff-hard' };
+    document.getElementById('drillsList').innerHTML = drills.map(d => `
+      <div class="drill-card">
+        <div class="drill-header">
+          <div class="drill-name">${d.name}</div>
+          <span class="drill-diff ${map[d.diff]}">${d.diff}</span>
+        </div>
+        <div class="drill-desc">${d.desc}</div>
+        <div class="drill-meta">
+          <span>${d.game}</span>
+          <span>${d.time}</span>
+        </div>
+        <div class="tip-tags">${d.tags.map(t => `<span class="tip-tag">${t}</span>`).join('')}</div>
+        <br>
+        <button class="drill-btn" onclick="showPage('aim')">▶ Start Drill</button>
+      </div>
+    `).join('');
+  }
+
+  /* ── TIPS DATA ── */
+  const tips = [
+    { game: 'Valorant', title: 'Buy Pattern Discipline', body: 'Never full eco alone. Coordinate buy rounds with your team. A 3-save is always better than 5 half-buys losing on bad utility.' , tags: ['economy','team play'] },
+    { game: 'CS2',      title: 'Sound Discipline',       body: 'Walk when approaching corners. Enemies hear your footsteps. Use sound cues to gather info — bomb plants, reloads, footsteps all give position away.', tags: ['sound','game sense'] },
+    { game: 'Apex',     title: 'Third Party Awareness',  body: 'After winning a fight, expect a third party in 10–15 seconds. Loot fast, heal fast, take high ground and reposition before they arrive.', tags: ['positioning','awareness'] },
+    { game: 'Fortnite', title: 'Box Fight Openings',     body: 'In a box fight, always look for the edit-peek-reset cycle. Edit, shoot, reset — never stay exposed for more than one shot.', tags: ['box fight','mechanics'] },
+    { game: 'OW2',      title: 'Peel for Your Support',  body: 'If your support is being dived, peel immediately. A dead support loses fights faster than a lost teamfight angle. Protect your healers.', tags: ['team play','positioning'] },
+    { game: 'Warzone',  title: 'Loadout Drop Priority',  body: 'Always prioritise getting your loadout over looting. Respawn tokens and cash are your #1 priority in the first two circles.', tags: ['economy','priority'] },
+    { game: 'CS2',      title: 'Utility Before Aggression', body: 'Never push a contested angle without first smoking off support positions or flashing the corner. Raw peeking well-held angles loses rounds.', tags: ['utility','strategy'] },
+    { game: 'Valorant', title: 'Crosshair Placement Rule', body: 'Your crosshair should always be at head height at the next corner you plan to move towards. Pre-aim every angle before you reach it.', tags: ['aim','fundamentals'] },
+    { game: 'Apex',     title: 'Legend Synergies',       body: 'Combine movement, recon and support legends for a balanced team. Wraith + Bloodhound + Newcastle is a strong all-round ranked composition.', tags: ['team comp','strategy'] },
+  ];
+
+  function renderTips() {
+    document.getElementById('tipsList').innerHTML = tips.map(t => `
+      <div class="tip-card">
+        <div class="tip-game">// ${t.game}</div>
+        <div class="tip-title">${t.title}</div>
+        <div class="tip-body">${t.body}</div>
+        <div class="tip-tags">${t.tags.map(tag => `<span class="tip-tag">${tag}</span>`).join('')}</div>
+      </div>
+    `).join('');
+  }
+
+  /* ── INIT ── */
+  renderDrills();
+  renderTips();
+</script>
+</body>
+</html>
