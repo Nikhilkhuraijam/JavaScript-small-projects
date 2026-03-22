@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Header -->
+        <div class="chat-header">
+            <h1>💬 Chat App</h1>
+            <div class="user-info" id="userInfo">
+                <span id="currentUser">Guest</span>
+                <button id="changeUserBtn" class="btn-small">Change</button>
+            </div>
+        </div>
+
+        <!-- Messages Area -->
+        <div class="messages-container" id="messagesContainer">
+            <div class="welcome-message">
+                <p>Welcome to Chat App! 👋</p>
+                <p>Start chatting now...</p>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <div class="message-input-wrapper">
+                <input 
+                    type="text" 
+                    id="messageInput" 
+                    class="message-input" 
+                    placeholder="Type a message..."
+                    autocomplete="off"
+                >
+                <button id="sendBtn" class="send-btn">Send</button>
+            </div>
+            <div class="input-info">
+                <span id="charCount">0/500</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for User Setup -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Set Your Name</h2>
+            </div>
+            <div class="modal-body">
+                <input 
+                    type="text" 
+                    id="userNameInput" 
+                    class="modal-input" 
+                    placeholder="Enter your name"
+                    maxlength="20"
+                >
+                <div class="modal-info">Max 20 characters</div>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmUserBtn" class="btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
