@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Body Transformation App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1>💪 Fitness Body Transformation</h1>
+            <p>Achieve Your Ideal Body Fat & Goals</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <button class="nav-btn active" data-section="calculator">Calculate Body Fat</button>
+            <button class="nav-btn" data-section="exercises">Exercises</button>
+            <button class="nav-btn" data-section="goals">Your Goals</button>
+            <button class="nav-btn" data-section="progress">Progress</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Section 1: Body Fat Calculator -->
+        <section id="calculator" class="section active">
+            <h2>Body Fat Calculator</h2>
+            <div class="calculator-form">
+                <div class="input-group">
+                    <label>Gender:</label>
+                    <select id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Weight (kg):</label>
+                    <input type="number" id="weight" placeholder="Enter your weight" min="20" max="300">
+                </div>
+
+                <div class="input-group">
+                    <label>Height (cm):</label>
+                    <input type="number" id="height" placeholder="Enter your height" min="100" max="250">
+                </div>
+
+                <div class="input-group">
+                    <label>Age (years):</label>
+                    <input type="number" id="age" placeholder="Enter your age" min="10" max="100">
+                </div>
+
+                <div class="input-group">
+                    <label>Waist (cm):</label>
+                    <input type="number" id="waist" placeholder="Measure at navel" min="20" max="200">
+                </div>
+
+                <div class="input-group" id="hip-group" style="display:none;">
+                    <label>Hip (cm):</label>
+                    <input type="number" id="hip" placeholder="Measure at widest part" min="20" max="200">
+                </div>
+
+                <div class="input-group" id="neck-group" style="display:none;">
+                    <label>Neck (cm):</label>
+                    <input type="number" id="neck" placeholder="Measure below larynx" min="10" max="100">
+                </div>
+
+                <button class="btn-calculate" onclick="calculateBodyFat()">Calculate Body Fat %</button>
+
+                <div id="result" class="result" style="display:none;">
+                    <h3>Your Results:</h3>
+                    <div class="result-box">
+                        <p>Body Fat Percentage: <span id="bfPercentage"></span>%</p>
+                        <p>BMI: <span id="bmi"></span></p>
+                        <p>Category: <span id="category"></span></p>
+                        <p id="recommendation"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Exercises -->
+        <section id="exercises" class="section" style="display:none;">
+            <h2>Targeted Exercises</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterExercises('all')">All</button>
+                <button class="filter-btn" onclick="filterExercises('cardio')">Cardio</button>
+                <button class="filter-btn" onclick="filterExercises('strength')">Strength</button>
+                <button class="filter-btn" onclick="filterExercises('flexibility')">Flexibility</button>
+            </div>
+
+            <div id="exercisesContainer" class="exercises-grid">
+                <!-- Exercises will be loaded here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Section 3: Your Goals -->
+        <section id="goals" class="section" style="display:none;">
+            <h2>Your Transformation Goals</h2>
+            <div class="goals-container">
+                <div id="goalsContent">
+                    <!-- Goals will be loaded here -->
+                </div>
+
+                <div class="goal-input">
+                    <h3>Set Your Target</h3>
+                    <div class="input-group">
+                        <label>Target Body Fat %:</label>
+                        <input type="number" id="targetBF" placeholder="e.g., 15" min="5" max="40">
+                    </div>
+                    <div class="input-group">
+                        <label>Target Weight (kg):</label>
+                        <input type="number" id="targetWeight" placeholder="e.g., 75" min="20" max="300">
+                    </div>
+                    <button class="btn-save" onclick="saveGoals()">Save Goals</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Progress -->
+        <section id="progress" class="section" style="display:none;">
+            <h2>Track Your Progress</h2>
+            <div class="progress-container">
+                <div class="progress-input">
+                    <h3>Log Weekly Progress</h3>
+                    <div class="input-group">
+                        <label>Week:</label>
+                        <input type="number" id="weekNum" placeholder="Week number" min="1" max="52">
+                    </div>
+                    <div class="input-group">
+                        <label>Current Weight (kg):</label>
+                        <input type="number" id="progressWeight" placeholder="Current weight" min="20" max="300">
+                    </div>
+                    <div class="input-group">
+                        <label>Body Fat %:</label>
+                        <input type="number" id="progressBF" placeholder="Current body fat" min="5" max="50">
+                    </div>
+                    <button class="btn-save" onclick="addProgress()">Log Progress</button>
+                </div>
+
+                <div class="progress-chart">
+                    <canvas id="progressChart" width="400" height="250"></canvas>
+                </div>
+
+                <div id="progressList" class="progress-list">
+                    <!-- Progress logs will appear here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Exercise Modal -->
+    <div id="exerciseModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalExerciseName"></h2>
+            <div class="modal-body">
+                <img id="modalExerciseImg" src="" alt="Exercise" class="modal-img">
+                <div class="modal-info">
+                    <p><strong>Category:</strong> <span id="modalCategory"></span></p>
+                    <p><strong>Duration:</strong> <span id="modalDuration"></span></p>
+                    <p><strong>Difficulty:</strong> <span id="modalDifficulty"></span></p>
+                    <h3>Instructions:</h3>
+                    <p id="modalInstructions"></p>
+                    <h3>Benefits:</h3>
+                    <p id="modalBenefits"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <video id="modalVideo" width="100%" height="auto" controls style="margin-top: 20px;"></video>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Fitness Body Transformation App | Stay Healthy, Stay Strong 💪</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
