@@ -245,15 +245,15 @@ function calculateBodyFat() {
     // Recommendation based on body fat
     let recommendation = '';
     if (bodyFat < 13 && gender === 'male') {
-        recommendation = '✅ Excellent! You are in great shape. Maintain with strength training and balanced diet.';
+        recommendation = 'Excellent! You are in great shape. Maintain with strength training and balanced diet.';
     } else if (bodyFat < 20 && gender === 'female') {
-        recommendation = '✅ Excellent! You are in great shape. Maintain with strength training and balanced diet.';
+        recommendation = 'Excellent! You are in great shape. Maintain with strength training and balanced diet.';
     } else if (bodyFat < 25 && gender === 'male') {
-        recommendation = '💪 Good fitness level. Keep up with regular exercise and healthy eating.';
+        recommendation = 'Good fitness level. Keep up with regular exercise and healthy eating.';
     } else if (bodyFat < 32 && gender === 'female') {
-        recommendation = '💪 Good fitness level. Keep up with regular exercise and healthy eating.';
+        recommendation = 'Good fitness level. Keep up with regular exercise and healthy eating.';
     } else {
-        recommendation = '🎯 Time to focus on reducing body fat. Combine cardio with strength training.';
+        recommendation = 'Time to focus on reducing body fat. Combine cardio with strength training.';
     }
 
     document.getElementById('recommendation').textContent = recommendation;
@@ -394,7 +394,7 @@ function saveGoals() {
     };
 
     localStorage.setItem('goals', JSON.stringify(goals));
-    alert('✅ Goals saved successfully!');
+    alert('Goals saved successfully!');
     loadGoals();
 }
 
@@ -451,7 +451,7 @@ function addProgress() {
     document.getElementById('progressWeight').value = '';
     document.getElementById('progressBF').value = '';
 
-    alert('✅ Progress logged successfully!');
+    alert('Progress logged successfully!');
     loadProgress();
 }
 
@@ -537,4 +537,4 @@ window.addEventListener('DOMContentLoaded', () => {
     loadProgress();
 });
 
-console.log('💪 Fitness Body Transformation App loaded successfully!');
+console.log('Fitness Body Transformation App loaded successfully!');

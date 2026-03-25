@@ -10,7 +10,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1E40AF 0%, #0369A1 100%);
     min-height: 100vh;
     color: #333;
 }
@@ -26,7 +26,7 @@ body {
    =========================== */
 
 .header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1E40AF 0%, #0369A1 100%);
     color: white;
     padding: 40px 0;
     text-align: center;
@@ -66,8 +66,8 @@ body {
 
 .nav-btn {
     background: white;
-    border: 2px solid #667eea;
-    color: #667eea;
+    border: 2px solid #1E40AF;
+    color: #1E40AF;
     padding: 10px 20px;
     border-radius: 25px;
     cursor: pointer;
@@ -77,13 +77,13 @@ body {
 }
 
 .nav-btn:hover {
-    background: #667eea;
+    background: #1E40AF;
     color: white;
     transform: translateY(-2px);
 }
 
 .nav-btn.active {
-    background: #667eea;
+    background: #1E40AF;
     color: white;
 }
 
@@ -105,10 +105,10 @@ main {
 }
 
 .section h2 {
-    color: #667eea;
+    color: #1E40AF;
     margin-bottom: 30px;
     font-size: 2em;
-    border-bottom: 3px solid #667eea;
+    border-bottom: 3px solid #1E40AF;
     padding-bottom: 15px;
 }
 
@@ -146,8 +146,8 @@ main {
 .input-group input:focus,
 .input-group select:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+    border-color: #1E40AF;
+    box-shadow: 0 0 10px rgba(30, 64, 175, 0.2);
 }
 
 /* ===========================
@@ -157,7 +157,7 @@ main {
 .btn-calculate,
 .btn-save {
     grid-column: 1 / -1;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1E40AF 0%, #0369A1 100%);
     color: white;
     padding: 15px 40px;
     border: none;
@@ -171,7 +171,7 @@ main {
 .btn-calculate:hover,
 .btn-save:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 10px 25px rgba(30, 64, 175, 0.4);
 }
 
 .btn-calculate:active,
@@ -185,7 +185,7 @@ main {
 
 .result {
     grid-column: 1 / -1;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #0891B2 0%, #0E7490 100%);
     color: white;
     padding: 30px;
     border-radius: 12px;
@@ -228,8 +228,8 @@ main {
 
 .filter-btn {
     background: white;
-    border: 2px solid #667eea;
-    color: #667eea;
+    border: 2px solid #1E40AF;
+    color: #1E40AF;
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
@@ -239,7 +239,7 @@ main {
 
 .filter-btn:hover,
 .filter-btn.active {
-    background: #667eea;
+    background: #1E40AF;
     color: white;
 }
 
@@ -254,7 +254,7 @@ main {
 }
 
 .exercise-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1E40AF 0%, #0369A1 100%);
     color: white;
     padding: 0;
     border-radius: 12px;
@@ -266,7 +266,7 @@ main {
 
 .exercise-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 15px 40px rgba(30, 64, 175, 0.4);
 }
 
 .exercise-card img {
@@ -385,7 +385,7 @@ main {
 }
 
 .goal-input {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #0891B2 0%, #0E7490 100%);
     color: white;
     padding: 30px;
     border-radius: 12px;
@@ -409,7 +409,7 @@ main {
 }
 
 .goal-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1E40AF 0%, #0369A1 100%);
     color: white;
     padding: 20px;
     border-radius: 10px;
@@ -442,7 +442,7 @@ main {
 }
 
 .progress-input {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1E40AF 0%, #0369A1 100%);
     color: white;
     padding: 30px;
     border-radius: 12px;
@@ -478,7 +478,7 @@ main {
     background: #f9f9f9;
     padding: 15px;
     margin: 10px 0;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #1E40AF;
     border-radius: 5px;
 }
 
@@ -567,10 +567,10 @@ footer {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #667eea;
+    background: #1E40AF;
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #764ba2;
+    background: #0369A1;
 }
