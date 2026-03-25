@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nilo - Master Languages Daily</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🌍</span>
+                <span class="logo-text">Nilo</span>
+            </div>
+            <div class="nav-right">
+                <div class="user-stats">
+                    <span class="streak">🔥 <span id="streakCount">0</span></span>
+                    <span class="xp">⭐ <span id="xpCount">0</span> XP</span>
+                </div>
+                <button class="theme-toggle" id="themeToggle">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Master Any Language in Minutes</h1>
+            <p>Stay consistent, build habits, achieve fluency with Nilo</p>
+            <div class="language-selector">
+                <select id="languageSelect" class="language-select">
+                    <option value="">Select Language</option>
+                    <option value="spanish">🇪🇸 Spanish</option>
+                    <option value="french">🇫🇷 French</option>
+                    <option value="german">🇩🇪 German</option>
+                    <option value="chinese">🇨🇳 Chinese</option>
+                    <option value="japanese">🇯🇵 Japanese</option>
+                    <option value="polish">🇵🇱 Polish</option>
+                    <option value="russian">🇷🇺 Russian</option>
+                    <option value="dutch">🇳🇱 Dutch</option>
+                </select>
+                <button class="start-btn" id="startBtn">Start Learning</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main App Section -->
+    <section id="appSection" class="app-section hidden">
+        <div class="app-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="user-profile">
+                    <div class="avatar">👤</div>
+                    <h3 id="userName">Learner</h3>
+                    <div class="level-badge" id="levelBadge">A1</div>
+                </div>
+
+                <div class="progress-card">
+                    <h4>Daily Goal</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="dailyProgress"></div>
+                    </div>
+                    <p><span id="lessonProgress">0</span>/5 lessons</p>
+                </div>
+
+                <nav class="lesson-nav">
+                    <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
+                    <button class="nav-btn" data-section="lessons">📚 Lessons</button>
+                    <button class="nav-btn" data-section="vocabulary">📖 Vocabulary</button>
+                    <button class="nav-btn" data-section="quiz">🎯 Quiz</button>
+                    <button class="nav-btn" data-section="study">📝 Study</button>
+                    <button class="nav-btn" data-section="speaking">🎤 Speaking</button>
+                    <button class="nav-btn" data-section="progress">📈 Progress</button>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <!-- Dashboard -->
+                <section id="dashboard" class="content-section active">
+                    <h2>Today's Learning</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">🎯</div>
+                            <h3 id="todayLessons">0</h3>
+                            <p>Lessons Today</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💪</div>
+                            <h3 id="currentStreak">0</h3>
+                            <p>Day Streak</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⭐</div>
+                            <h3 id="totalXP">0</h3>
+                            <p>Total XP</p>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📚</div>
+                            <h3 id="wordsLearned">0</h3>
+                            <p>Words Learned</p>
+                        </div>
+                    </div>
+
+                    <div class="recommended-section">
+                        <h3>Recommended for You</h3>
+                        <div class="lesson-cards">
+                            <button class="lesson-card" onclick="startLesson('vocabulary')">
+                                <span class="card-emoji">📖</span>
+                                <h4>Vocabulary</h4>
+                                <p>Learn 10 new words</p>
+                                <span class="badge">+10 XP</span>
+                            </button>
+                            <button class="lesson-card" onclick="startLesson('grammar')">
+                                <span class="card-emoji">✍️</span>
+                                <h4>Grammar</h4>
+                                <p>Master verb conjugation</p>
+                                <span class="badge">+15 XP</span>
+                            </button>
+                            <button class="lesson-card" onclick="startLesson('listening')">
+                                <span class="card-emoji">👂</span>
+                                <h4>Listening</h4>
+                                <p>Understand native speakers</p>
+                                <span class="badge">+15 XP</span>
+                            </button>
+                            <button class="lesson-card" onclick="startLesson('speaking')">
+                                <span class="card-emoji">🎤</span>
+                                <h4>Speaking</h4>
+                                <p>Practice pronunciation</p>
+                                <span class="badge">+20 XP</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Lessons -->
+                <section id="lessons" class="content-section">
+                    <h2>Lessons</h2>
+                    <div class="levels-container">
+                        <div class="level-group">
+                            <h3>Beginner (A1-A2)</h3>
+                            <div class="lesson-list">
+                                <div class="lesson-item">
+                                    <h4>Greetings & Introductions</h4>
+                                    <p>Master basic greetings and how to introduce yourself</p>
+                                    <button class="start-lesson-btn" onclick="playLesson('greetings')">START</button>
+                                </div>
+                                <div class="lesson-item">
+                                    <h4>Numbers & Counting</h4>
+                                    <p>Learn numbers from 0 to 1000</p>
+                                    <button class="start-lesson-btn" onclick="playLesson('numbers')">START</button>
+                                </div>
+                                <div class="lesson-item">
+                                    <h4>Common Phrases</h4>
+                                    <p>101 essential everyday phrases</p>
+                                    <button class="start-lesson-btn" onclick="playLesson('phrases')">START</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="level-group">
+                            <h3>Intermediate (B1-B2)</h3>
+                            <div class="lesson-list">
+                                <div class="lesson-item locked">
+                                    <h4>Past Tense Mastery</h4>
+                                    <p>🔒 Unlock at B1 Level</p>
+                                    <button class="start-lesson-btn" disabled>LOCKED</button>
+                                </div>
+                                <div class="lesson-item locked">
+                                    <h4>Advanced Grammar</h4>
+                                    <p>🔒 Unlock at B1 Level</p>
+                                    <button class="start-lesson-btn" disabled>LOCKED</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Vocabulary -->
+                <section id="vocabulary" class="content-section">
+                    <h2>Vocabulary Builder</h2>
+                    <div class="vocab-filters">
+                        <button class="filter-btn active" data-category="all">All</button>
+                        <button class="filter-btn" data-category="food">🍔 Food</button>
+                        <button class="filter-btn" data-category="travel">✈️ Travel</button>
+                        <button class="filter-btn" data-category="business">💼 Business</button>
+                        <button class="filter-btn" data-category="everyday">💬 Everyday</button>
+                    </div>
+                    <div class="vocab-cards" id="vocabCards"></div>
+                </section>
+
+                <!-- Quiz -->
+                <section id="quiz" class="content-section">
+                    <h2>Daily Quiz Challenge</h2>
+                    <div class="quiz-container" id="quizContainer">
+                        <div class="quiz-start">
+                            <h3>Ready for a challenge?</h3>
+                            <p>Test your knowledge with our adaptive quiz</p>
+                            <button class="start-quiz-btn" onclick="startQuiz()">Start Quiz</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Study -->
+                <section id="study" class="content-section">
+                    <h2>Study Mode</h2>
+                    <div class="study-modes">
+                        <button class="study-mode-btn" onclick="startStudyMode('flashcards')">
+                            <span class="mode-icon">🔄</span>
+                            <h4>Flashcards</h4>
+                            <p>Interactive card review system</p>
+                        </button>
+                        <button class="study-mode-btn" onclick="startStudyMode('spaced-repetition')">
+                            <span class="mode-icon">📅</span>
+                            <h4>Spaced Repetition</h4>
+                            <p>Scientific learning method</p>
+                        </button>
+                        <button class="study-mode-btn" onclick="startStudyMode('sentence-builder')">
+                            <span class="mode-icon">📝</span>
+                            <h4>Sentence Builder</h4>
+                            <p>Create sentences with words</p>
+                        </button>
+                        <button class="study-mode-btn" onclick="startStudyMode('listening-comprehension')">
+                            <span class="mode-icon">👂</span>
+                            <h4>Listening Comprehension</h4>
+                            <p>Understand native speakers</p>
+                        </button>
+                    </div>
+
+                    <div class="study-content hidden" id="studyContent">
+                        <button class="back-btn" onclick="closeStudyMode()">← Back</button>
+                        <div id="studyModeContainer"></div>
+                    </div>
+
+                    <div class="study-stats">
+                        <h3>Study Statistics</h3>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <h4>Time Studied</h4>
+                                <p id="timeStudied">0 mins</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>Cards Reviewed</h4>
+                                <p id="cardsReviewed">0</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>Accuracy</h4>
+                                <p id="accuracy">0%</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>Study Streak</h4>
+                                <p id="studyStreak">0 days</p>
+                            </div>
+                        </div>
+                        <div class="study-goal">
+                            <h4>Today's Study Goal</h4>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="studyGoalProgress"></div>
+                            </div>
+                            <p><span id="goalProgress">0</span>/30 minutes</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Speaking -->
+                <section id="speaking" class="content-section">
+                    <h2>Speaking Practice</h2>
+                    <div class="speaking-module">
+                        <p>🎤 Click the button below and speak clearly. We'll evaluate your pronunciation!</p>
+                        <button class="mic-btn" id="micBtn" onclick="toggleMic()">
+                            <span class="mic-icon">🎙️</span>
+                            <span>Start Recording</span>
+                        </button>
+                        <div id="recordingFeedback"></div>
+                    </div>
+                </section>
+
+                <!-- Progress -->
+                <section id="progress" class="content-section">
+                    <h2>Your Progress</h2>
+                    <div class="progress-charts">
+                        <div class="chart-card">
+                            <h4>Weekly Activity</h4>
+                            <div class="mini-chart" id="weeklyChart"></div>
+                        </div>
+                        <div class="chart-card">
+                            <h4>Level Progress</h4>
+                            <div class="level-progress">
+                                <div class="level-item">
+                                    <span>A1</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <div class="level-item">
+                                    <span>A2</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 60%;"></div>
+                                    </div>
+                                </div>
+                                <div class="level-item">
+                                    <span>B1</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 20%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </section>
+
+    <!-- Lesson Player Modal -->
+    <div id="lessonModal" class="modal hidden">
+        <div class="modal-content lesson-modal">
+            <button class="close-btn" onclick="closeLessonModal()">✕</button>
+            <div class="lesson-player" id="lessonPlayer"></div>
+        </div>
+    </div>
+
+    <!-- Premium Section -->
+    <section class="pricing-section" id="pricingSection">
+        <h2>Unlock Premium Features</h2>
+        <div class="pricing-cards">
+            <div class="pricing-card free">
+                <h3>Free</h3>
+                <div class="price">$0<span>/month</span></div>
+                <ul class="features-list">
+                    <li>✓ 1 lesson per day</li>
+                    <li>✓ Basic vocabulary</li>
+                    <li>✓ Limited quizzes</li>
+                    <li>✗ No speaking practice</li>
+                    <li>✗ No offline access</li>
+                </ul>
+                <button class="plan-btn" disabled>Current Plan</button>
+            </div>
+
+            <div class="pricing-card premium">
+                <div class="badge-new">MOST POPULAR</div>
+                <h3>Premium</h3>
+                <div class="price">$9.99<span>/month</span></div>
+                <ul class="features-list">
+                    <li>✓ Unlimited lessons</li>
+                    <li>✓ Full vocabulary access</li>
+                    <li>✓ Unlimited quizzes</li>
+                    <li>✓ Speaking practice</li>
+                    <li>✓ Offline access</li>
+                    <li>✓ Ad-free experience</li>
+                </ul>
+                <button class="plan-btn" onclick="upgradePremium()">Upgrade Now</button>
+            </div>
+
+            <div class="pricing-card lifetime">
+                <div class="badge-special">BEST VALUE</div>
+                <h3>Lifetime</h3>
+                <div class="price">$99<span>one-time</span></div>
+                <ul class="features-list">
+                    <li>✓ All Premium features</li>
+                    <li>✓ Lifetime access</li>
+                    <li>✓ Priority support</li>
+                    <li>✓ New courses included</li>
+                    <li>✓ Community access</li>
+                </ul>
+                <button class="plan-btn" onclick="buyLifetime()">Get Lifetime</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Nilo - Master Languages. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Contact</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
