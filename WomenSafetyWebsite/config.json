@@ -1,0 +1,195 @@
+{
+  "website": {
+    "name": "SafeSpace",
+    "tagline": "Your Trusted Digital Safety Guide",
+    "description": "SafeSpace is dedicated to helping women stay safe in digital spaces through education, resources, and community support.",
+    "logo_text": "SafeSpace",
+    "logo_icon": "shield-alt"
+  },
+  "contact": {
+    "phone": "1-800-SAFE-NOW",
+    "email": "support@safespace.com",
+    "website": "www.safespace.com"
+  },
+  "colors": {
+    "primary": "#003D82",
+    "secondary": "#FF6B5B",
+    "light_bg": "#F8F9FA",
+    "dark_text": "#2C3E50",
+    "light_text": "#6C757D"
+  },
+  "emergency_hotlines": [
+    {
+      "name": "Emergency Hotline",
+      "number": "911",
+      "description": "For immediate emergencies",
+      "icon": "📞"
+    },
+    {
+      "name": "Crisis Text Line",
+      "number": "Text HOME to 741741",
+      "description": "24/7 crisis support via text",
+      "icon": "💬"
+    },
+    {
+      "name": "RAINN",
+      "number": "1-800-656-HOPE (4673)",
+      "description": "Sexual assault support",
+      "icon": "🤝"
+    },
+    {
+      "name": "National DV Hotline",
+      "number": "1-800-799-7233",
+      "description": "Domestic violence support",
+      "icon": "🏠"
+    },
+    {
+      "name": "Cyber Civil Rights",
+      "number": "Online Resources",
+      "description": "Support for online harassment",
+      "icon": "🌐"
+    },
+    {
+      "name": "Pew Research",
+      "number": "Educational Hub",
+      "description": "Online safety information",
+      "icon": "📱"
+    }
+  ],
+  "safety_tips": [
+    {
+      "title": "Strong Passwords",
+      "description": "Use passwords with mix of letters, numbers and symbols. Never share passwords. Use different passwords for different accounts.",
+      "icon": "🔐"
+    },
+    {
+      "title": "Privacy Settings",
+      "description": "Make your social media private. Control who can see your posts, photos and personal information. Review settings regularly.",
+      "icon": "👤"
+    },
+    {
+      "title": "Stranger Danger",
+      "description": "Never trust strangers online. Be careful with personal information. Verify identities before sharing details.",
+      "icon": "🚫"
+    },
+    {
+      "title": "Avoid Suspicious Links",
+      "description": "Don't click unknown links. Check URLs before clicking. Be wary of shortened links from unknown sources.",
+      "icon": "🔗"
+    },
+    {
+      "title": "Think Before Sharing",
+      "description": "Once posted, it's permanent. Think about who can see your content. Avoid sharing location or schedules.",
+      "icon": "💬"
+    },
+    {
+      "title": "Device Safety",
+      "description": "Keep software updated. Use antivirus protection. Never leave devices unattended. Lock your screen.",
+      "icon": "📱"
+    },
+    {
+      "title": "Camera & Mic Safety",
+      "description": "Cover your webcam. Mute microphone when not in use. Be cautious in video calls with strangers.",
+      "icon": "🎥"
+    },
+    {
+      "title": "Recognize Harassment",
+      "description": "Unwanted messages, threats, or intimidation is harassment. Document everything. Block and report. Don't respond to trolls.",
+      "icon": "⚠️"
+    }
+  ],
+  "blog_categories": [
+    "Online Safety",
+    "Scams & Fraud",
+    "Cyberbullying",
+    "Privacy",
+    "Digital Rights",
+    "Tips & Tricks",
+    "Success Stories",
+    "Expert Advice"
+  ],
+  "quiz_questions": [
+    {
+      "number": 1,
+      "question": "Do you use the same password for multiple accounts?",
+      "options": [
+        {"text": "Yes, it's easier", "value": "yes", "score": -1},
+        {"text": "Sometimes", "value": "sometimes", "score": 0},
+        {"text": "No, I use different passwords", "value": "no", "score": 1}
+      ]
+    },
+    {
+      "number": 2,
+      "question": "How often do you review your privacy settings?",
+      "options": [
+        {"text": "Never checked", "value": "never", "score": -1},
+        {"text": "Once a year or less", "value": "rarely", "score": 0},
+        {"text": "Every few months", "value": "regularly", "score": 1}
+      ]
+    },
+    {
+      "number": 3,
+      "question": "Do you share your real-time location online?",
+      "options": [
+        {"text": "Yes, I check in everywhere", "value": "often", "score": -1},
+        {"text": "Sometimes with friends", "value": "sometimes", "score": 0},
+        {"text": "No, I avoid this", "value": "never", "score": 1}
+      ]
+    },
+    {
+      "number": 4,
+      "question": "How do you handle messages from strangers?",
+      "options": [
+        {"text": "Always respond", "value": "respond", "score": -1},
+        {"text": "Respond carefully", "value": "carefully", "score": 0},
+        {"text": "Block immediately", "value": "block", "score": 1}
+      ]
+    },
+    {
+      "number": 5,
+      "question": "Do you click on links from unknown sources?",
+      "options": [
+        {"text": "Sometimes, without thinking", "value": "yes", "score": -1},
+        {"text": "Only if I'm curious", "value": "sometimes", "score": 0},
+        {"text": "Never, I check first", "value": "no", "score": 1}
+      ]
+    }
+  ],
+  "community_stats": {
+    "active_members": 2450,
+    "discussion_threads": 1230,
+    "helpful_responses": 5600
+  },
+  "community_rules": [
+    "Be respectful always",
+    "No personal attacks",
+    "Keep posts relevant",
+    "No spam or advertising",
+    "Respect privacy"
+  ],
+  "social_media": {
+    "facebook": "https://facebook.com/safespace",
+    "twitter": "https://twitter.com/safespace",
+    "instagram": "https://instagram.com/safespace",
+    "linkedin": "https://linkedin.com/company/safespace"
+  },
+  "seo": {
+    "title": "Women Safety Online - Your Trusted Digital Safety Guide",
+    "description": "Learn how to stay safe online with our comprehensive guides, emergency resources, and community support.",
+    "keywords": "women safety, online safety, digital security, cyberbullying prevention, online harassment",
+    "author": "SafeSpace Team",
+    "robots": "index, follow"
+  },
+  "analytics": {
+    "google_analytics_id": "UA-XXXXXXXXX-X",
+    "enable_tracking": false
+  },
+  "features": {
+    "enable_chat": true,
+    "enable_forum": true,
+    "enable_blog": true,
+    "enable_quiz": true,
+    "enable_reporting": true,
+    "maintenance_mode": false
+  }
+}
