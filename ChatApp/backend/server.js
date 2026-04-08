@@ -6,6 +6,7 @@ const socketIo = require('socket.io');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 const messageRoutes = require('./routes/messages');
+const userProfileRoutes = require('./routes/userProfile');
 const Message = require('./models/Message');
 
 const app = express();
@@ -24,6 +25,7 @@ connectDB();
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/users', userProfileRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
