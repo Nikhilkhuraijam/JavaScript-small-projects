@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="date"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+            background-color: #f9f9ff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid #c3e6cb;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.3s ease-in-out;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .reset-btn {
+            background-color: #e8e8e8;
+            color: #333;
+        }
+
+        .reset-btn:hover {
+            background-color: #d0d0d0;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-label {
+            display: block;
+            padding: 12px;
+            background-color: #f5f5f5;
+            border: 2px dashed #667eea;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-label:hover {
+            background-color: #f0f0ff;
+            border-color: #764ba2;
+        }
+
+        .file-name {
+            color: #667eea;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Complaint Form</h1>
+        <p class="subtitle">We value your feedback and concerns</p>
+
+        <div class="success-message" id="successMessage">
+            ✓ Your complaint has been submitted successfully! We will review it shortly.
+        </div>
+
+        <form id="complaintForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fullName">Full Name <span class="required">*</span></label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                    <div class="error-message" id="nameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="(123) 456-7890">
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Complaint Date <span class="required">*</span></label>
+                    <input type="date" id="date" name="date" required>
+                    <div class="error-message" id="dateError"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject <span class="required">*</span></label>
+                <input type="text" id="subject" name="subject" placeholder="Brief subject of complaint" required>
+                <div class="error-message" id="subjectError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Complaint Category <span class="required">*</span></label>
+                <select id="category" name="category" required>
+                    <option value="">-- Select Category --</option>
+                    <option value="service">Service Quality</option>
+                    <option value="product">Product Defect</option>
+                    <option value="billing">Billing Issue</option>
+                    <option value="behavior">Staff Behavior</option>
+                    <option value="delivery">Delivery Problem</option>
+                    <option value="other">Other</option>
+                </select>
+                <div class="error-message" id="categoryError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Complaint Description <span class="required">*</span></label>
+                <textarea id="description" name="description" placeholder="Describe your complaint in detail..." required></textarea>
+                <div class="error-message" id="descriptionError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="fileInput">Attach Evidence (Optional)</label>
+                <div class="file-input-wrapper">
+                    <input type="file" id="fileInput" name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                    <label for="fileInput" class="file-label">
+                        📎 Click to upload or drag and drop
+                        <div class="file-name">Supported: PDF, Images, Documents</div>
+                    </label>
+                </div>
+                <div id="fileName" style="margin-top: 10px; color: #667eea; font-size: 13px;"></div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="submit-btn">Submit Complaint</button>
+                <button type="reset" class="reset-btn">Clear Form</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('complaintForm');
+        const successMessage = document.getElementById('successMessage');
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+
+        // File input display
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                fileName.textContent = `✓ File selected: ${this.files[0].name}`;
+            } else {
+                fileName.textContent = '';
+            }
+        });
+
+        // Form validation
+        function validateForm(e) {
+            e.preventDefault();
+            clearErrors();
+
+            let isValid = true;
+
+            // Full Name validation
+            const fullName = document.getElementById('fullName').value.trim();
+            if (fullName.length < 3) {
+                showError('nameError', 'Full name must be at least 3 characters');
+                isValid = false;
+            }
+
+            // Email validation
+            const email = document.getElementById('email').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError('emailError', 'Please enter a valid email address');
+                isValid = false;
+            }
+
+            // Subject validation
+            const subject = document.getElementById('subject').value.trim();
+            if (subject.length < 5) {
+                showError('subjectError', 'Subject must be at least 5 characters');
+                isValid = false;
+            }
+
+            // Date validation
+            const date = document.getElementById('date').value;
+            if (!date) {
+                showError('dateError', 'Please select a date');
+                isValid = false;
+            } else {
+                const selectedDate = new Date(date);
+                const today = new Date();
+                if (selectedDate > today) {
+                    showError('dateError', 'Date cannot be in the future');
+                    isValid = false;
+                }
+            }
+
+            // Category validation
+            const category = document.getElementById('category').value;
+            if (!category) {
+                showError('categoryError', 'Please select a category');
+                isValid = false;
+            }
+
+            // Description validation
+            const description = document.getElementById('description').value.trim();
+            if (description.length < 10) {
+                showError('descriptionError', 'Description must be at least 10 characters');
+                isValid = false;
+            }
+
+            if (isValid) {
+                submitForm();
+            }
+        }
+
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+        }
+
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(elem => {
+                elem.textContent = '';
+                elem.classList.remove('show');
+            });
+        }
+
+        function submitForm() {
+            // Collect form data
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                date: document.getElementById('date').value,
+                subject: document.getElementById('subject').value,
+                category: document.getElementById('category').value,
+                description: document.getElementById('description').value,
+                timestamp: new Date().toLocaleString()
+            };
+
+            // Log the data (in real scenario, send to server)
+            console.log('Complaint Submitted:', formData);
+
+            // Show success message
+            successMessage.classList.add('show');
+
+            // Store in localStorage for demonstration
+            let complaints = JSON.parse(localStorage.getItem('complaints')) || [];
+            complaints.push(formData);
+            localStorage.setItem('complaints', JSON.stringify(complaints));
+
+            // Reset form
+            form.reset();
+            fileName.textContent = '';
+
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 5000);
+
+            alert('Complaint submitted successfully!\n\nCheck browser console for details.');
+        }
+
+        // Form submission
+        form.addEventListener('submit', validateForm);
+
+        // Set today's date as default
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+        dateInput.max = today;
+    </script>
+</body>
+</html>
